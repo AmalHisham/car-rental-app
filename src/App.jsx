@@ -14,12 +14,12 @@ import Success from './pages/Success'
 export default function App() {
   return (
     <>
-      <h1>app is rendering</h1>
+      
       <NavBar />
 
       <Routes>
-        <Route path='/' element={<Cars />} />
-        <Route path='/cart' element={<Cart />} />
+        <Route path='/' element={<Cars/>} />
+        <Route path='/cart' element={<Cart/>} />
         <Route path='/checkout' element= {<Checkout/>}/>  
         <Route path='/login' element= {<Login/>}/> 
         <Route path='/payment' element= {<Payment/>}/> 
