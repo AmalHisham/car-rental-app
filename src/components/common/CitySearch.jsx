@@ -32,7 +32,12 @@ export default function CitySearch({label}) {
 
             <ul>
             {Array.isArray(cities) && cities.map((city) => (
-                <li key={city.id}>{city.city}</li>
+                <li key={city.id} onClick={() => {
+                setQuery(city.city)
+                setCities([])
+            }}>
+            {city.city}
+            </li>
             ))}
             </ul>
         </div>

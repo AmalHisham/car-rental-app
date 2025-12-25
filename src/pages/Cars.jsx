@@ -6,7 +6,8 @@ export default function Cars() {
     return (
         <>
         <h1>Available Cars</h1>
-        <CitySearch label = "enter city"/>
+        <CitySearch label = "Pickup city"/>
+        <CitySearch label = "Drop city"/>
         {carsData.map((item) => <CarCard key = {item.id} car = {item}/>)}
         </>
 
