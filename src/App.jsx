@@ -11,6 +11,8 @@ import Payment from './pages/Payment'
 import Register from './pages/Register'
 import Success from './pages/Success'
 
+import ProtectedRoute from './components/common/ProtectedRoute'
+
 export default function App() {
   return (
     <>
@@ -20,7 +22,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Cars/>} />
         <Route path='/cars' element={<Cars/>} />
-        <Route path='/cart' element={<Cart/>} />
+        <Route path='/cart' element={<ProtectedRoute><Cart/></ProtectedRoute>} />
         <Route path='/checkout' element= {<Checkout/>}/>  
         <Route path='/login' element= {<Login/>}/> 
         <Route path='/payment' element= {<Payment/>}/> 
