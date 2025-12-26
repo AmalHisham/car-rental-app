@@ -1,6 +1,6 @@
 import React from "react"
 import AuthContext from "../context/AuthContext"
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
 
 export default function Login() {
 
@@ -12,12 +12,15 @@ export default function Login() {
  
     const [error,setError] = React.useState("")
 
+    const location = useLocation()
+    const from = location.state?.from || "/cars"
+
     function handleSubmit(e) {
         e.preventDefault()
         const success = login(email, password)
 
         if(success) {
-            navigate("/cars")
+            navigate(from, {replace : true})
         } else {
             setError("Invalid email or password")
         }
