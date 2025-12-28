@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { BookingProvider } from './context/BookingContext.jsx'
 
 createRoot(document.getElementById('root')).render(
  
@@ -12,7 +13,9 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>
-            <App />
+            <BookingProvider>
+              <App />
+            </BookingProvider>
           </CartProvider>
         </AuthProvider>
       </BrowserRouter>

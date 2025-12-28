@@ -1,7 +1,7 @@
 import React from "react"
 import { fetchCities } from "../../services/geoDbService"
 
-export default function CitySearch({label}) {
+export default function CitySearch({label, onSelectCity}) {
 
     const timeRef = React.useRef(null)
 
@@ -12,12 +12,17 @@ export default function CitySearch({label}) {
         const value = e.target.value
         setQuery(value)
         
+        if(value.length < 3) {
+            setCities([])
+            return
+        }
+
         clearTimeout(timeRef.current)
 
-        setTimeout(async () => {
+        timeRef.current = setTimeout(async () => {
             const results = await fetchCities(value)
             setCities(results)
-        },200)
+        },600)
 
     }
 
@@ -35,6 +40,7 @@ export default function CitySearch({label}) {
                 <li key={city.id} onClick={() => {
                 setQuery(city.city)
                 setCities([])
+                onSelectCity(city.city)
             }}>
             {city.city}
             </li>
