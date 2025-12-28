@@ -9,6 +9,33 @@ export function BookingProvider({children}){
     const [startDate, setStartDate] = React.useState("")
     const [endDate, setEndDate] = React.useState("")
 
+    const totalDays = React.useMemo(() => {
+        if (!startDate || !endDate) return 0
+
+        const start = new Date(startDate)
+        const end = new Date(endDate)
+
+        const diff = end - start
+        return diff > 0 ? diff / (1000 * 60 * 60 * 24) : 0
+    }, [startDate, endDate])
+
+
+    const isBookingValid =
+        pickupCity &&
+        dropCity &&
+        startDate &&
+        endDate &&
+        totalDays > 0
+
+    
+    function resetBooking() {
+        setPickupCity("")
+        setDropCity("")
+        setStartDate("")
+        setEndDate("")
+    }
+    
+
     return (
         <BookingContext.Provider
         value={{
@@ -19,7 +46,10 @@ export function BookingProvider({children}){
             startDate,
             setStartDate,
             endDate,
-            setEndDate
+            setEndDate,
+            totalDays,
+            isBookingValid,
+            resetBooking
         }}
         >
             {children}

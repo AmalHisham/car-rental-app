@@ -3,6 +3,7 @@ import CarCard from "../components/cars/carCard"
 import CitySearch from "../components/common/citySearch"
 import carsData from "../data/carsData"
 import BookingContext from "../context/BookingContext"
+import SearchForm from "../components/booking/SearchForm"
 
 export default function Cars() {
 
@@ -49,10 +50,12 @@ export default function Cars() {
                     onChange={(e) => setEndDate(e.target.value)}
                 />
             </div>
+             
+            
+            <SearchForm/>
 
-
-            <h1>Available Cars</h1>
-            {carsData.map((item) => <CarCard key = {item.id} car = {item}/>)}
+            {/* <h1>Available Cars</h1>
+            {carsData.map((item) => <CarCard key = {item.id} car = {item}/>)} */}
 
         </div>
 
