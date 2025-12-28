@@ -11,6 +11,8 @@ import Register from './pages/Register'
 import Success from './pages/Success'
 import SearchResults from './pages/SearchResults'
 import Checkout from './pages/Checkout'
+import PaymentSuccess from './pages/PaymentSuccess'
+
 
 import ProtectedRoute from './components/common/ProtectedRoute'
 
@@ -30,6 +32,7 @@ export default function App() {
         <Route path='/success' element= {<Success/>}/> 
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </>
   )
