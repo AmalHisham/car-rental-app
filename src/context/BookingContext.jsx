@@ -8,6 +8,7 @@ export function BookingProvider({children}){
     const [dropCity, setDropCity] = React.useState("")
     const [startDate, setStartDate] = React.useState("")
     const [endDate, setEndDate] = React.useState("")
+    const [selectedCar, setSelectedCar] = React.useState(null)
 
     const totalDays = React.useMemo(() => {
         if (!startDate || !endDate) return 0
@@ -49,7 +50,9 @@ export function BookingProvider({children}){
             setEndDate,
             totalDays,
             isBookingValid,
-            resetBooking
+            resetBooking,
+            selectedCar,
+            setSelectedCar
         }}
         >
             {children}
