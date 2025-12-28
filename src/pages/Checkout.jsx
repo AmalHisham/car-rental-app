@@ -16,9 +16,9 @@ export default function Checkout() {
 
 
 
-if(!selectedCar) {
-    return <Navigate to="/" replace />
-}
+// if(!selectedCar) {
+//     return <Navigate to="/" replace />
+// }
 
 const totalPrice = selectedCar.pricePerDay * totalDays
 

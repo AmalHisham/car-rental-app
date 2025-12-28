@@ -13,7 +13,8 @@ export default function Login() {
     const [error,setError] = React.useState("")
 
     const location = useLocation()
-    const from = location.state?.from || "/cars"
+    const from = location.state?.from?.pathname || "/"
+
 
     function handleSubmit(e) {
         e.preventDefault()

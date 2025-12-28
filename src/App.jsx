@@ -31,8 +31,8 @@ export default function App() {
         <Route path='/register' element= {<Register/>}/> 
         <Route path='/success' element= {<Success/>}/> 
         <Route path="/search-results" element={<SearchResults />} />
-        <Route path="/checkout" element={<Checkout/>}/>
-        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>}/>
+        <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
       </Routes>
     </>
   )
