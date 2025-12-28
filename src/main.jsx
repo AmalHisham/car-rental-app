@@ -7,6 +7,10 @@ import { CartProvider } from './context/CartContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { BookingProvider } from './context/BookingContext.jsx'
 
+import "./styles/variables.css"
+import "./styles/global.css"
+
+
 createRoot(document.getElementById('root')).render(
  
     <StrictMode>

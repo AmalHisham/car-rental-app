@@ -3,6 +3,8 @@ import BookingContext from "../context/BookingContext"
 import carsData from "../data/carsData"
 import { useNavigate } from "react-router-dom"
 
+import "./SearchResults.css"   
+
 export default function SearchResults() {
   const {
     pickupCity,
@@ -10,47 +12,41 @@ export default function SearchResults() {
     startDate,
     endDate,
     totalDays,
-    selectedCar,
     setSelectedCar
   } = React.useContext(BookingContext)
 
   const navigate = useNavigate()
 
   return (
-    <div>
-      <h2>Available Cars</h2>
+    <div className="page">
+      <h2 className="search-title">Available Cars</h2>
 
-      <p>
-        {pickupCity} → {dropCity}
-      </p>
-      <p>
-        {startDate} to {endDate} ({totalDays} days)
-      </p>
+      <p>{pickupCity} → {dropCity}</p>
+      <p>{startDate} to {endDate} ({totalDays} days)</p>
 
       <hr />
 
-      {carsData.map((car) => (
-        <div key={car.id}>
-          <img
-            src={car.image}
-            alt={car.model}
-            style={{ width: "250px", height: "160px", objectFit: "cover" }}
-          />
-          <h3>{car.model}</h3>
-          <p>₹{car.pricePerDay} / day</p>
-          <p>Total: ₹{car.pricePerDay * totalDays}</p>
+      
+      <div className="cars-grid">
+        {carsData.map((car) => (
+          <div key={car.id} className="car-card">
+            <img src={car.image} alt={car.model} />
 
-          <button
-            onClick={() => {
-              setSelectedCar(car);
-              navigate("/checkout");
-            }}
-          >
-            Select
-          </button>
-          
-        </div>
-      ))}
+            <h3>{car.model}</h3>
+            <p>₹{car.pricePerDay} / day</p>
+            <p>Total: ₹{car.pricePerDay * totalDays}</p>
+
+            <button
+              onClick={() => {
+                setSelectedCar(car)
+                navigate("/checkout")
+              }}
+            >
+              Select
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
-  );
+  )
 }

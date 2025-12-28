@@ -2,6 +2,8 @@ import React from "react"
 import AuthContext from "../context/AuthContext"
 import {useLocation, useNavigate} from "react-router-dom"
 
+import "./Login.css"
+
 export default function Login() {
 
     const {login} = React.useContext(AuthContext)
@@ -30,7 +32,7 @@ export default function Login() {
 
 
     return (
-        <div>
+        <div className="login-container">
             <form onSubmit={handleSubmit}>
                 <input
                 type="email"
@@ -47,7 +49,7 @@ export default function Login() {
                 <button type="submit">Login</button>
             </form>
 
-            {error && <p style={{color : "red"}}>{error}</p>}
+            {error && <p className="error">{error}</p>}
        </div>
     )
 }

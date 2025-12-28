@@ -1,0 +1,33 @@
+.success-container {
+    max-width: 500px;
+    margin: 120px auto;
+    background: white;
+    padding: 32px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+  }
+  
+  .success-container h2 {
+    color: #16a34a;
+    margin-bottom: 12px;
+  }
+  
+  .success-container p {
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+  
+  .success-container a {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  
+  .success-container a:hover {
+    background: #1d4ed8;
+  }
+  
