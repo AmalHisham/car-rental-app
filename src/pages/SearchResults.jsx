@@ -15,6 +15,12 @@ export default function SearchResults() {
     setSelectedCar
   } = React.useContext(BookingContext)
 
+  const [query, setQuery] = React.useState("")
+
+  const filteredCars = carsData.filter((car) => 
+      car.model.toLowerCase().includes(query.toLowerCase()) )
+
+
   const navigate = useNavigate()
 
   return (
@@ -26,9 +32,18 @@ export default function SearchResults() {
 
       <hr />
 
+      <input
+      type="text"
+      placeholder="Search by model"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      className="car-search"
+      />
+
+      
       
       <div className="cars-grid">
-        {carsData.map((car) => (
+        {filteredCars.map((car) => (
           <div key={car.id} className="car-card">
             <img src={car.image} alt={car.model} />
 

@@ -42,4 +42,14 @@
   .car-card button:hover {
     background: #15803d;
   }
+
+  .car-search {
+    background-color: white;
+    color: black;
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  
   
