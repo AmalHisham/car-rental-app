@@ -11,6 +11,8 @@ import SearchResults from './pages/SearchResults'
 import Checkout from './pages/Checkout'
 import PaymentSuccess from './pages/PaymentSuccess'
 
+import FloatingChatbot from './components/chatbot/FloatingChatbot'
+
 
 import ProtectedRoute from './components/common/ProtectedRoute'
 
@@ -30,6 +32,8 @@ export default function App() {
         <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>}/>
         <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
       </Routes>
+
+      <FloatingChatbot/>
     </>
   )
 }
