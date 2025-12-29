@@ -1,43 +1,82 @@
+/* Main booking card */
 .booking-container {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 24px;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  /* Grid layout */
-  .booking-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  /* Each field */
-  .booking-field label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
-  
-  .booking-field input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  /* Selected city text */
-  .selected-text {
-    font-size: 13px;
-    color: #555;
-    margin-top: 4px;
-  }
-  
-  /* Search button container */
-  .search-btn {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
+  background: white;
+  border-radius: 14px;
+  padding: 36px;
+  max-width: 720px;
+  margin: auto;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Title INSIDE card */
+.booking-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+/* Grid layout */
+.booking-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* Field wrapper */
+.booking-field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.booking-field label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Date inputs */
+.booking-field input {
+  padding: 12px;
+  font-size: 14px;
+
+  background: #ffffff;
+  color: #111827;        /* ✅ DARK readable text */
+
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+/* Selected city text */
+.selected-text {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+/* Search button area */
+.search-btn {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Make search button feel primary */
+.search-btn button {
+  padding: 12px 36px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.booking-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);      /* 🔥 makes icon dark */
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.booking-field input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}

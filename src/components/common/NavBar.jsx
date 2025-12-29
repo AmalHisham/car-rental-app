@@ -7,8 +7,8 @@ export default function NavBar() {
     const {user,logout} = React.useContext(AuthContext)
     return (
         <nav>
-            <Link to = '/'>Cars</Link> {" | "}
-            <Link to = '/cart'>Cart</Link> {" | "}
+            <Link to = '/'>Home</Link> {" | "}
+            {/* <Link to = '/cart'>Cart</Link> {" | "} */}
 
             {!user && (
             <>

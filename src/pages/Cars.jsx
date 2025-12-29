@@ -6,7 +6,6 @@ import "./Cars.css"
 import CarCard from "../components/cars/CarCard"
 import carsData from "../data/carsData"
 
-
 export default function Cars() {
 
   const {
@@ -22,19 +21,29 @@ export default function Cars() {
 
   return (
     <div className="page">
-      <h2>Booking Details</h2>
 
       <div className="booking-container">
+
+        <h2 className="booking-title">Booking Details</h2>
+
         <div className="booking-grid">
 
           <div className="booking-field">
             <CitySearch label="Pickup city" onSelectCity={setPickupCity} />
-            <p className="selected-text">Selected: {pickupCity}</p>
+            {pickupCity && (
+              <span className="selected-text">
+                Selected: {pickupCity}
+              </span>
+            )}
           </div>
 
           <div className="booking-field">
             <CitySearch label="Drop city" onSelectCity={setDropCity} />
-            <p className="selected-text">Selected: {dropCity}</p>
+            {dropCity && (
+              <span className="selected-text">
+                Selected: {dropCity}
+              </span>
+            )}
           </div>
 
           <div className="booking-field">
@@ -60,9 +69,11 @@ export default function Cars() {
         <div className="search-btn">
           <SearchForm />
         </div>
+
       </div>
 
       {/* <h1>Available Cars</h1> {carsData.map((item) => <CarCard key = {item.id} car = {item}/>)} */}
     </div>
   )
 }
+

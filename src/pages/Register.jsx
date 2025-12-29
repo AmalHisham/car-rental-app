@@ -10,7 +10,7 @@ export default function Register() {
   const [password, setPassword] = React.useState("")
 
   function handleSubmit(e) {
-    e.preventDefault()   // ✅ FIXED
+    e.preventDefault()  
     register(email, password)
     alert("Registered Successfully")
   }

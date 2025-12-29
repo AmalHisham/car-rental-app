@@ -52,7 +52,7 @@ export default function Checkout() {
 
       <div className="checkout-container">
 
-        {/* LEFT SIDE */}
+       
         <div className="checkout-summary">
           <h3>Booking Details</h3>
           <p>{pickupCity} → {dropCity}</p>
@@ -71,7 +71,7 @@ export default function Checkout() {
           <h2>Total: ₹{totalPrice}</h2>
         </div>
 
-        {/* RIGHT SIDE */}
+      
         <div className="checkout-payment">
           <h3>Payment Details</h3>
 
@@ -100,7 +100,7 @@ export default function Checkout() {
               onChange={(e) => setName(e.target.value)}
             />
 
-            <p style={{ textAlign: "center" }}>OR</p>
+            <p className="payment-or">OR</p>
 
             <input
               placeholder="UPI ID"
