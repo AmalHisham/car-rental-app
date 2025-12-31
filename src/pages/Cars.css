@@ -1,82 +1,408 @@
-/* Main booking card */
-.booking-container {
-  background: white;
-  border-radius: 14px;
-  padding: 36px;
-  max-width: 720px;
-  margin: auto;
-
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* Title INSIDE card */
-.booking-title {
+/* Hero Section */
+.hero-section {
   text-align: center;
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 32px;
+  padding: 60px 20px 40px;
 }
 
-/* Grid layout */
-.booking-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.hero-title {
+  font-size: 48px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: #a3a3a3;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Booking Card */
+.booking-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 48px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+              0 0 0 1px rgba(0, 255, 136, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+}
+
+/* Booking Form */
+.booking-form {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
 }
 
-/* Field wrapper */
-.booking-field {
+/* Location Row */
+.location-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Swap Button */
+.swap-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.swap-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+  flex-shrink: 0;
+}
+
+.swap-icon-btn svg {
+  color: var(--bg);
+  transform: rotate(90deg);
+}
+
+.swap-icon-btn:hover {
+  transform: scale(1.1) rotate(180deg);
+  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+}
+
+.swap-icon-btn:active {
+  transform: scale(0.95) rotate(180deg);
+}
+
+/* Input Group */
+.input-group {
+  position: relative;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 80px;
+}
+
+.input-group:hover {
+  border-color: var(--primary);
+  background: #ffffff;
+}
+
+.input-group:focus-within {
+  border-color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.1);
+}
+
+/* Input Icon */
+.input-icon {
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* Input Content */
+.input-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
-/* Labels */
-.booking-field label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-/* Date inputs */
-.booking-field input {
-  padding: 12px;
-  font-size: 14px;
-
-  background: #ffffff;
-  color: #111827;        /* ✅ DARK readable text */
-
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-}
-
-/* Selected city text */
-.selected-text {
+.input-label {
   font-size: 12px;
-  margin-top: 6px;
-  color: #6b7280;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+  display: block;
 }
 
-/* Search button area */
-.search-btn {
-  margin-top: 36px;
+/* Override CitySearch styles - but NOT date inputs */
+.location-input .input-content input,
+.location-input .input-content select,
+.location-input .input-content > div {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Selected Indicator */
+.selected-indicator {
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 2px;
+  animation: checkmark 0.3s ease;
+}
+
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Date Row */
+.date-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.date-input-group {
+  min-height: 80px;
+}
+
+.date-input-group .input-content {
+  position: relative;
+}
+
+/* Date Input - Completely reset and rebuild */
+.date-input {
+  width: 100% !important;
+  border: none !important;
+  background: transparent !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: var(--text) !important;
+  font-family: inherit !important;
+  outline: none !important;
+  padding: 4px 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  display: block !important;
+  box-shadow: none !important;
+  line-height: 1.5 !important;
+  min-height: 24px !important;
+}
+
+.date-input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+  filter: invert(1);
+}
+
+.date-input {
+  pointer-events: auto;
+}
+
+
+/* Search Button Wrapper */
+.search-button-wrapper {
   display: flex;
   justify-content: center;
+  margin-top: 8px;
 }
 
-/* Make search button feel primary */
-.search-btn button {
-  padding: 12px 36px;
-  font-size: 15px;
+/* Booking Features */
+.booking-features {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
   font-weight: 500;
-  border-radius: 10px;
 }
 
-.booking-field input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);      /* 🔥 makes icon dark */
-  opacity: 0.8;
-  cursor: pointer;
+.feature-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
-.booking-field input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
+/* Cars Section */
+.cars-section {
+  margin-top: 80px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--surface);
+  margin: 0 0 12px 0;
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: #737373;
+  margin: 0;
+}
+
+/* Cars Grid */
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .booking-card {
+    padding: 36px;
+  }
+
+  .location-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .swap-button {
+    order: 2;
+    padding-top: 0;
+    padding: 8px 0;
+  }
+
+  .swap-icon-btn svg {
+    transform: rotate(0deg);
+  }
+
+  .swap-icon-btn:hover svg {
+    transform: rotate(0deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 40px 20px 32px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .booking-card {
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .date-row {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-features {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .cars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .booking-card {
+    padding: 20px;
+  }
+
+  .input-group {
+    padding: 14px 16px;
+    min-height: 70px;
+  }
+
+  .swap-icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .section-title {
+    font-size: 24px;
+  }
 }

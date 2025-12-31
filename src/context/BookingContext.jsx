@@ -22,11 +22,12 @@ export function BookingProvider({children}){
 
 
     const isBookingValid =
-        pickupCity &&
-        dropCity &&
-        startDate &&
-        endDate &&
-        totalDays > 0
+        !!pickupCity &&
+        !!dropCity &&
+        !!startDate &&
+        !!endDate &&
+        totalDays > 0;
+
 
     
     function resetBooking() {
