@@ -46,16 +46,17 @@ export default function NavBar() {
                     )}
 
                     {user && (
-                        <div className="user-section">
-                            <span className="user-welcome">
-                                Hey, <span className="user-name">{user.username || 'User'}</span>
-                            </span>
-                            <button onClick={logout} className="logout-btn">
-                                <span className="btn-text">Logout</span>
-                                <span className="btn-icon">→</span>
-                            </button>
-                        </div>
+                    <div className="user-section">
+                        <span className="user-welcome">
+                        Hey, <span className="user-name">{user.name}</span>
+                        </span>
+                        <button onClick={logout} className="logout-btn">
+                        <span className="btn-text">Logout</span>
+                        <span className="btn-icon">→</span>
+                        </button>
+                    </div>
                     )}
+
                 </div>
             </div>
             

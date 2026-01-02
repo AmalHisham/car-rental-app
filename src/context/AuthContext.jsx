@@ -1,42 +1,55 @@
 import React from "react"
+import { loginUser, registerUser } from "../services/authService"
 
 const AuthContext = React.createContext()
 
-export function AuthProvider({children}) {
+export function AuthProvider({ children }) {
+  const [user, setUser] = React.useState(null)
+  const [loading, setLoading] = React.useState(false)
 
-    const [user, setUser] = React.useState(null)
-
-    function register(email,password) {
-        const newUser = {email,password}
-        localStorage.setItem("user",JSON.stringify(newUser))
-        setUser(newUser)
+  async function register(name, email, password) {
+    try {
+      setLoading(true)
+      const userData = await registerUser(name, email, password)
+      setUser(userData)
+      setLoading(false)
+      return true
+    } catch (err) {
+      setLoading(false)
+      return false
     }
+  }
 
-    function login(email,password) {
-        const storedUser = JSON.parse(localStorage.getItem("user"))
-
-        if (
-            storedUser &&
-            storedUser.email === email &&
-            storedUser.password === password
-        ) {
-            setUser(storedUser)
-            return true
-        }
-
-        return false
+  async function login(email, password) {
+    try {
+      setLoading(true)
+      const userData = await loginUser(email, password)
+      setUser(userData)
+      setLoading(false)
+      return true
+    } catch (err) {
+      setLoading(false)
+      return false
     }
+  }
 
-    function logout() {
-        localStorage.removeItem("user")
-        setUser(null)
-    }
+  function logout() {
+    setUser(null)
+  }
 
-    return (
-        <AuthContext.Provider value={{user, register, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        register,
+        login,      // ✅ MUST exist
+        logout,
+        loading
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export default AuthContext
