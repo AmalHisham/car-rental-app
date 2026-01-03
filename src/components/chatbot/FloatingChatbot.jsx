@@ -1,72 +1,60 @@
-import React from "react"
-import Chatbot from "./Chatbot"
+import React from "react";
+import Chatbot from "./Chatbot";
+import "./FloatingChatbot.css";
 
 export default function FloatingChatbot() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
   return (
     <>
       {open && (
-        <div style={styles.chatWindow}>
-          <div style={styles.header}>
-            <span>Car Rental Assistant</span>
-            <button onClick={() => setOpen(false)}>✖</button>
+        <div className="chat-window">
+          <div className="chat-header">
+            <div className="header-content">
+              <div className="bot-avatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+                  <circle cx="8" cy="15" r="1"/>
+                  <circle cx="16" cy="15" r="1"/>
+                </svg>
+              </div>
+              <div className="header-text">
+                <span className="bot-name">Car Rental Assistant</span>
+                <span className="bot-status">
+                  <span className="status-dot"></span>
+                  Online
+                </span>
+              </div>
+            </div>
+            <button className="close-btn" onClick={() => setOpen(false)} aria-label="Close chat">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
           </div>
 
-          <div style={styles.body}>
+          <div className="chat-body">
             <Chatbot />
+          </div>
+
+          <div className="chat-footer">
+            <span className="footer-text">Powered by AI</span>
           </div>
         </div>
       )}
 
-      <button style={styles.fab} onClick={() => setOpen(true)}>
-        💬
+      <button 
+        className={`chat-fab ${open ? 'fab-hidden' : ''}`}
+        onClick={() => setOpen(true)}
+        aria-label="Open chat"
+      >
+        <svg className="fab-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span className="notification-badge">1</span>
       </button>
     </>
-  )
-}
-
-const styles = {
-  fab: {
-    position: "fixed",
-    bottom: 24,
-    right: 24,
-    width: 56,
-    height: 56,
-    borderRadius: "50%",
-    fontSize: 24,
-    background: "#2563eb",
-    color: "white",
-    border: "none",
-    cursor: "pointer",
-    zIndex: 1000
-  },
-  chatWindow: {
-    position: "fixed",
-    bottom: 90,
-    right: 24,
-    width: 360,
-    height: 460,
-    background: "white",
-    borderRadius: 12,
-    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-    display: "flex",
-    flexDirection: "column",
-    zIndex: 1000
-  },
-  header: {
-    padding: "12px 16px",
-    background: "#2563eb",
-    color: "white",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12
-  },
-  body: {
-    padding: 12,
-    flex: 1,
-    overflowY: "auto"
-  }
+  );
 }
