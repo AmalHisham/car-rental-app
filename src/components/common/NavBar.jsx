@@ -42,6 +42,11 @@ export default function NavBar() {
                                 <span className="link-text">Register</span>
                                 <span className="link-shine"></span>
                             </Link>
+
+                           
+
+
+
                         </>
                     )}
 
@@ -50,6 +55,10 @@ export default function NavBar() {
                         <span className="user-welcome">
                         Hey, <span className="user-name">{user.name}</span>
                         </span>
+                        <Link to="/my-bookings" className="nav-link nav-link-cta">
+                                <span className="link-text">My Bookings</span>
+                                <span className="link-shine"></span>
+                            </Link>
                         <button onClick={logout} className="logout-btn">
                         <span className="btn-text">Logout</span>
                         <span className="btn-icon">→</span>

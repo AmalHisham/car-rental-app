@@ -12,7 +12,7 @@ import Checkout from './pages/Checkout'
 import PaymentSuccess from './pages/PaymentSuccess'
 
 import FloatingChatbot from './components/chatbot/FloatingChatbot'
-
+import MyBookings from "./pages/MyBookings"
 
 import ProtectedRoute from './components/common/ProtectedRoute'
 
@@ -31,6 +31,7 @@ export default function App() {
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>}/>
         <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+        <Route path='/my-bookings' element={<ProtectedRoute><MyBookings/></ProtectedRoute>}/>
       </Routes>
 
       <FloatingChatbot/>

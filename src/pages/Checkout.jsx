@@ -1,7 +1,17 @@
-import React from "react";
-import BookingContext from "../context/BookingContext";
-import { Navigate, useNavigate } from "react-router-dom";
-import "./Checkout.css";
+import React from "react"
+import { Navigate, useNavigate } from "react-router-dom"
+import BookingContext from "../context/BookingContext"
+import AuthContext from "../context/AuthContext"
+import "./Checkout.css"
+
+/* helpers for bookings storage */
+function getBookings() {
+  return JSON.parse(localStorage.getItem("bookings")) || []
+}
+
+function saveBookings(bookings) {
+  localStorage.setItem("bookings", JSON.stringify(bookings))
+}
 
 export default function Checkout() {
   const {
@@ -11,45 +21,89 @@ export default function Checkout() {
     endDate,
     totalDays,
     selectedCar,
-    resetBooking,
-  } = React.useContext(BookingContext);
+    resetBooking
+  } = React.useContext(BookingContext)
+
+  const { user } = React.useContext(AuthContext)
+  const navigate = useNavigate()
 
   if (!selectedCar) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace />
   }
 
-  const totalPrice = selectedCar.pricePerDay * totalDays;
+  const totalPrice = selectedCar.pricePerDay * totalDays
 
-  const [cardNumber, setCardNumber] = React.useState("");
-  const [expiry, setExpiry] = React.useState("");
-  const [cvv, setCvv] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [upi, setUpi] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [paymentMethod, setPaymentMethod] = React.useState("card");
-
-  const navigate = useNavigate();
+  const [cardNumber, setCardNumber] = React.useState("")
+  const [expiry, setExpiry] = React.useState("")
+  const [cvv, setCvv] = React.useState("")
+  const [cardName, setCardName] = React.useState("")
+  const [upi, setUpi] = React.useState("")
+  const [paymentMethod, setPaymentMethod] = React.useState("card")
+  const [loading, setLoading] = React.useState(false)
 
   function handlePayment(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (paymentMethod === "card" && (!cardNumber || !expiry || !cvv || !name)) {
-      alert("Please enter all card details");
-      return;
+    if (
+      paymentMethod === "card" &&
+      (!cardNumber || !expiry || !cvv || !cardName)
+    ) {
+      alert("Please enter all card details")
+      return
     }
 
     if (paymentMethod === "upi" && !upi) {
-      alert("Please enter UPI ID");
-      return;
+      alert("Please enter UPI ID")
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
+    // simulate payment success
     setTimeout(() => {
-      resetBooking();
-      navigate("/payment-success");
-    }, 2000);
+      /* 🔥 CREATE BOOKING FROM REAL DATA */
+      const booking = {
+        id: Date.now(),
+
+        userId: user.id,
+        userName: user.name,
+        userEmail: user.email,
+
+        car: {
+          id: selectedCar.id,
+          model: selectedCar.model,
+          pricePerDay: selectedCar.pricePerDay,
+          image: selectedCar.image
+        },
+
+        pickupCity,
+        dropCity,
+        startDate,
+        endDate,
+        totalDays,
+        totalPrice,
+
+        payment: {
+          method: paymentMethod.toUpperCase(),
+          status: "SUCCESS",
+          paidAt: new Date().toISOString()
+        },
+
+        bookingStatus: "CONFIRMED",
+        createdAt: new Date().toISOString()
+      }
+
+      const bookings = getBookings()
+      bookings.push(booking)
+      saveBookings(bookings)
+
+      resetBooking()
+      navigate("/payment-success")
+    }, 2000)
   }
+
+
+
 
   return (
     <div className="page">
