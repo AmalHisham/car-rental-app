@@ -4,14 +4,16 @@ import { loginUser, registerUser } from "../services/authService"
 const AuthContext = React.createContext()
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = React.useState(null)
+  const [user, setUser] = React.useState(() => {
+    return JSON.parse(localStorage.getItem("authUser"))
+  })
+
   const [loading, setLoading] = React.useState(false)
 
   async function register(name, email, password) {
     try {
       setLoading(true)
       const userData = await registerUser(name, email, password)
-      setUser(userData)
       setLoading(false)
       return true
     } catch (err) {
@@ -24,7 +26,10 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true)
       const userData = await loginUser(email, password)
+
+      localStorage.setItem("authUser", JSON.stringify(userData))
       setUser(userData)
+
       setLoading(false)
       return true
     } catch (err) {
@@ -34,6 +39,7 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
+    localStorage.removeItem("authUser")
     setUser(null)
   }
 
@@ -42,7 +48,7 @@ export function AuthProvider({ children }) {
       value={{
         user,
         register,
-        login,      // ✅ MUST exist
+        login,
         logout,
         loading
       }}

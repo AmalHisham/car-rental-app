@@ -161,19 +161,7 @@ export default function Cars() {
           </div>
         </div>
 
-        {carsData && carsData.length > 0 && (
-          <div className="cars-section">
-            <div className="section-header">
-              <h2 className="section-title">Available Vehicles</h2>
-              <p className="section-subtitle">{carsData.length} cars ready for you</p>
-            </div>
-            <div className="cars-grid">
-              {carsData.map((car) => (
-                <CarCard key={car.id} car={car} />
-              ))}
-            </div>
-          </div>
-        )}
+        
       </div>
     </div>
   );

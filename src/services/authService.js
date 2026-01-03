@@ -1,64 +1,57 @@
-// Fake database using localStorage (JSON)
+const API_URL = "http://localhost:3001";
 
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users")) || []
-}
-
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users))
-}
-
+/* REGISTER USER */
 export async function registerUser(name, email, password) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const users = getUsers()
+  // normalize email
+  const normalizedEmail = email.trim().toLowerCase();
 
-      const existingUser = users.find(u => u.email === email)
-      if (existingUser) {
-        reject("User already exists")
-        return
-      }
+  const res = await fetch(`${API_URL}/users`);
+  const users = await res.json();
 
-      const newUser = {
-        id: Date.now(),
-        name,      
-        email,     
-        password
-      }
+  const exists = users.find(
+    (u) => u.email.toLowerCase() === normalizedEmail
+  );
 
-      users.push(newUser)
-      saveUsers(users)
+  if (exists) {
+    throw new Error("User already exists");
+  }
 
-      resolve({
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email
-      })
-    }, 500)
-  })
+  const newUser = {
+    id: Date.now(),
+    name,
+    email: normalizedEmail,
+    password
+  };
+
+  const saveRes = await fetch(`${API_URL}/users`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newUser)
+  });
+
+  if (!saveRes.ok) {
+    throw new Error("Registration failed");
+  }
+
+  return newUser;
 }
 
-
+/* LOGIN USER */
 export async function loginUser(email, password) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const users = getUsers()
+  const normalizedEmail = email.trim().toLowerCase();
 
-      const user = users.find(
-        u => u.email === email && u.password === password
-      )
+  const res = await fetch(`${API_URL}/users`);
+  const users = await res.json();
 
-      if (!user) {
-        reject("Invalid credentials")
-        return
-      }
+  const foundUser = users.find(
+    (u) =>
+      u.email.toLowerCase() === normalizedEmail &&
+      u.password === password
+  );
 
-      resolve({
-        id: user.id,
-        name: user.name,    
-        email: user.email
-      })
-    }, 500)
-  })
+  if (!foundUser) {
+    throw new Error("Invalid credentials");
+  }
+
+  return foundUser;
 }
-

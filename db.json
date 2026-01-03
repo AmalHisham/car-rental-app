@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": 1767434484785,
+      "name": "Amal",
+      "email": "amal@gmail.com",
+      "password": "amal123"
+    }
+  ],
+  "bookings": []
+}
