@@ -1,5 +1,6 @@
 import React from "react";
 import AuthContext from "../context/AuthContext";
+import { getUserBookings } from "../services/bookingService";
 import "./MyBookings.css";
 
 export default function MyBookings() {
@@ -8,14 +9,12 @@ export default function MyBookings() {
   const [bookings, setBookings] = React.useState([]);
 
   React.useEffect(() => {
-    const allBookings = JSON.parse(localStorage.getItem("bookings")) || [];
-
-    // ✅ show only logged-in user's bookings
-    const userBookings = allBookings.filter(
-      (booking) => booking.userId === user.id
-    );
-
-    setBookings(userBookings);
+    async function loadBookings() {
+      const data = await getUserBookings(user.id);
+      setBookings(data);
+    }
+  
+    loadBookings();
   }, [user.id]);
 
   if (bookings.length === 0) {

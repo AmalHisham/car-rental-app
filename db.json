@@ -1,11 +1,38 @@
 {
   "users": [
     {
-      "id": 1767434484785,
+      "id": "1767434484785",
       "name": "Amal",
       "email": "amal@gmail.com",
       "password": "amal123"
     }
   ],
-  "bookings": []
+  "bookings": [
+    {
+      "id": "9ad8",
+      "userId": "1767434484785",
+      "userName": "Amal",
+      "userEmail": "amal@gmail.com",
+      "car": {
+        "id": 1,
+        "model": "Toyota Fortuner",
+        "type": "SUV",
+        "pricePerDay": 3000,
+        "image": "https://i.pinimg.com/736x/05/58/ff/0558ff6b9b44c78525fc308576289f36.jpg"
+      },
+      "pickupCity": "Vadodara",
+      "dropCity": "Wayanad district",
+      "startDate": "2026-01-05",
+      "endDate": "2026-02-04",
+      "totalDays": 30,
+      "totalPrice": 90000,
+      "payment": {
+        "method": "UPI",
+        "status": "SUCCESS",
+        "paidAt": "2026-01-05T07:28:11.178Z"
+      },
+      "bookingStatus": "CONFIRMED",
+      "createdAt": "2026-01-05T07:28:11.178Z"
+    }
+  ]
 }

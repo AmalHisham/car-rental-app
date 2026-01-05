@@ -20,7 +20,8 @@ export async function registerUser(name, email, password) {
     id: Date.now(),
     name,
     email: normalizedEmail,
-    password
+    password,
+    role : "user"
   };
 
   const saveRes = await fetch(`${API_URL}/users`, {

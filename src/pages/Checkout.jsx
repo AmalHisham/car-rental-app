@@ -1,6 +1,7 @@
 import React from "react"
 import { Navigate, useNavigate } from "react-router-dom"
 import BookingContext from "../context/BookingContext"
+import { createBooking } from "../services/bookingService";
 import AuthContext from "../context/AuthContext"
 import "./Checkout.css"
 
@@ -59,47 +60,35 @@ export default function Checkout() {
 
     setLoading(true)
 
-    // simulate payment success
-    setTimeout(() => {
-      /* 🔥 CREATE BOOKING FROM REAL DATA */
+    setTimeout(async () => {
       const booking = {
-        id: Date.now(),
-
         userId: user.id,
         userName: user.name,
         userEmail: user.email,
-
-        car: {
-          id: selectedCar.id,
-          model: selectedCar.model,
-          pricePerDay: selectedCar.pricePerDay,
-          image: selectedCar.image
-        },
-
+    
+        car: selectedCar,
         pickupCity,
         dropCity,
         startDate,
         endDate,
         totalDays,
         totalPrice,
-
+    
         payment: {
           method: paymentMethod.toUpperCase(),
           status: "SUCCESS",
-          paidAt: new Date().toISOString()
+          paidAt: new Date().toISOString(),
         },
-
+    
         bookingStatus: "CONFIRMED",
-        createdAt: new Date().toISOString()
-      }
-
-      const bookings = getBookings()
-      bookings.push(booking)
-      saveBookings(bookings)
-
-      resetBooking()
-      navigate("/payment-success")
-    }, 2000)
+        createdAt: new Date().toISOString(),
+      };
+    
+      await createBooking(booking);
+    
+      resetBooking();
+      navigate("/payment-success");
+    }, 2000);
   }
 
 
