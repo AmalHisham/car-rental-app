@@ -16,6 +16,13 @@ import MyBookings from "./pages/MyBookings"
 
 import ProtectedRoute from './components/common/ProtectedRoute'
 
+import AdminRoute from "./components/common/AdminRoute"
+import AdminLayout from "./pages/admin/AdminLayout"
+import AdminProducts from "./pages/admin/AdminProducts"
+import AdminUsers from "./pages/admin/AdminUsers"
+// import UserDetails from "./pages/admin/UserDetails"
+
+
 export default function App() {
   return (
     <>
@@ -32,6 +39,13 @@ export default function App() {
         <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>}/>
         <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
         <Route path='/my-bookings' element={<ProtectedRoute><MyBookings/></ProtectedRoute>}/>
+
+
+        <Route path='/admin' element={<AdminRoute><AdminLayout/></AdminRoute>}>
+          <Route index element={<h2>Admin Dashboard</h2>} />
+          <Route path='products' element={<AdminProducts/>}/>
+          <Route path='users' element={<AdminUsers/>}/>
+        </Route>
       </Routes>
 
       <FloatingChatbot/>

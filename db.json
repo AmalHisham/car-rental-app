@@ -1,10 +1,25 @@
 {
   "users": [
     {
+      "id": "1",
+      "name": "Admin",
+      "email": "admin@test.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
       "id": "1767434484785",
       "name": "Amal",
       "email": "amal@gmail.com",
-      "password": "amal123"
+      "password": "amal123",
+      "role": "user"
+    },
+    {
+      "id": 1767605449224,
+      "name": "adil",
+      "email": "adil@gmail.com",
+      "password": "adil123",
+      "role": "user"
     }
   ],
   "bookings": [
