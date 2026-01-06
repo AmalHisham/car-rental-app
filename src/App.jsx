@@ -20,6 +20,7 @@ import AdminRoute from "./components/common/AdminRoute"
 import AdminLayout from "./pages/admin/AdminLayout"
 import AdminProducts from "./pages/admin/AdminProducts"
 import AdminUsers from "./pages/admin/AdminUsers"
+import UserDetails from './pages/admin/UserDetails'
 // import UserDetails from "./pages/admin/UserDetails"
 
 
@@ -45,6 +46,8 @@ export default function App() {
           <Route index element={<h2>Admin Dashboard</h2>} />
           <Route path='products' element={<AdminProducts/>}/>
           <Route path='users' element={<AdminUsers/>}/>
+          <Route path="users/:id" element={<UserDetails />} />
+
         </Route>
       </Routes>
 

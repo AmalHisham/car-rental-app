@@ -18,3 +18,13 @@ export async function getUserBookings(userId) {
   const res = await fetch(`${API_URL}/bookings?userId=${userId}`);
   return res.json();
 }
+
+export async function getAllBookings() {
+  const res = await fetch(`${API_URL}/bookings`)
+  return res.json()
+}
+
+export async function getBookingsByUser(userId) {
+  const res = await fetch(`${API_URL}/bookings?userId=${userId}`)
+  return res.json()
+}
