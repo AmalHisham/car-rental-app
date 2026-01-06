@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { deleteUser } from "../../services/userService";
 import "./AdminUsers.css";
 
 export default function AdminUsers() {
@@ -27,6 +28,23 @@ export default function AdminUsers() {
       user.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  function handleDelete(userId) {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
+    )
+  
+    if (!confirmDelete) return
+  
+    deleteUser(userId)
+      .then(() => {
+        setUsers(prev => prev.filter(u => u.id !== userId))
+      })
+      .catch(() => {
+        alert("Failed to delete user")
+      })
+  }
+  
+
   return (
     <div className="admin-container">
       <div className="admin-header">
@@ -45,23 +63,7 @@ export default function AdminUsers() {
               Manage all registered users and their accounts
             </p>
           </div>
-          <div className="header-actions">
-            <button className="export-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Export
-            </button>
-            <button className="add-user-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              Add User
-            </button>
-          </div>
+          
         </div>
 
         <div className="search-filter-bar">
@@ -177,7 +179,10 @@ export default function AdminUsers() {
                           </svg>
                           View
                         </Link>
-                        <button className="action-btn delete-btn">
+                        <button 
+                        className="action-btn delete-btn"
+                        onClick={() => handleDelete(user.id)}
+                        >
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <polyline points="3 6 5 6 21 6"/>
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
