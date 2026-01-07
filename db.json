@@ -41,6 +41,32 @@
       },
       "bookingStatus": "CONFIRMED",
       "createdAt": "2026-01-05T07:28:11.178Z"
+    },
+    {
+      "id": "64f3",
+      "userId": "1",
+      "userName": "Admin",
+      "userEmail": "admin@test.com",
+      "car": {
+        "id": "3",
+        "model": "Hyundai Creta",
+        "type": "SUV",
+        "pricePerDay": 1500,
+        "image": "https://images.91wheels.com/assets/c_images/gallery/hyundai/creta/hyundai-creta-0-1737786601.jpg?w=840&q=50"
+      },
+      "pickupCity": "Madurai",
+      "dropCity": "Melattur",
+      "startDate": "2026-01-07",
+      "endDate": "2026-01-21",
+      "totalDays": 14,
+      "totalPrice": 21000,
+      "payment": {
+        "method": "UPI",
+        "status": "SUCCESS",
+        "paidAt": "2026-01-07T05:09:37.747Z"
+      },
+      "bookingStatus": "CONFIRMED",
+      "createdAt": "2026-01-07T05:09:37.747Z"
     }
   ],
   "cars": [

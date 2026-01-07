@@ -1,6 +1,6 @@
 import React from "react";
 import BookingContext from "../context/BookingContext";
-import carsData from "../data/carsData";
+import { getCars } from "../services/carService";
 import { useNavigate } from "react-router-dom";
 import "./SearchResults.css";
 
@@ -14,10 +14,22 @@ export default function SearchResults() {
     setSelectedCar,
   } = React.useContext(BookingContext);
 
+  const [cars, setCars] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   const [query, setQuery] = React.useState("");
   const navigate = useNavigate();
 
-  const filteredCars = carsData.filter((car) =>
+  React.useEffect(() => {
+    getCars()
+      .then(setCars)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <div className="page"><p>Loading cars...</p></div>;
+  }
+
+  const filteredCars = cars.filter((car) =>
     car.model.toLowerCase().includes(query.toLowerCase())
   );
 
