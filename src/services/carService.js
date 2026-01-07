@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:3001"
 
-/* GET ALL CARS */
+
 export const getCars = async () => {
   const res = await fetch(`${API_URL}/cars`)
   return await res.json() 
