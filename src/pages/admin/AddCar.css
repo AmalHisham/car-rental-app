@@ -1,0 +1,292 @@
+/* Add Car Container */
+.add-car-container {
+    background: white;
+    border-radius: 16px;
+    border: 2px solid var(--primary);
+    overflow: hidden;
+  }
+  
+  /* Add Car Header */
+  .add-car-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .header-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(10, 10, 10, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .header-icon svg {
+    color: #0a0a0a;
+  }
+  
+  .header-text {
+    flex: 1;
+  }
+  
+  .add-car-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    color: #0a0a0a;
+  }
+  
+  .add-car-subtitle {
+    font-size: 14px;
+    color: rgba(10, 10, 10, 0.7);
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  /* Add Car Form */
+  .add-car-form {
+    padding: 32px;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group-add-car {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-group-add-car.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .form-label-add-car {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .form-label-add-car svg {
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+  
+  .form-input-add-car {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #1a1a1a;
+    transition: all 0.3s ease;
+    background: white;
+  }
+  
+  .form-input-add-car:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+  }
+  
+  .form-input-add-car::placeholder {
+    color: #9ca3af;
+  }
+  
+  /* Image Preview */
+  .image-preview {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 2px dashed #e5e7eb;
+  }
+  
+  .preview-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .preview-container {
+    width: 100%;
+    height: 200px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  /* Form Actions */
+  .form-actions-add-car {
+    display: flex;
+    gap: 12px;
+    padding-top: 8px;
+  }
+  
+  .cancel-btn-add-car,
+  .submit-btn-add-car {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+  }
+  
+  .cancel-btn-add-car {
+    background: white;
+    border: 2px solid #e5e7eb;
+    color: #374151;
+  }
+  
+  .cancel-btn-add-car:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: #f9fafb;
+  }
+  
+  .cancel-btn-add-car:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn-add-car {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #0a0a0a;
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+  }
+  
+  .submit-btn-add-car:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(0, 255, 136, 0.4);
+    transform: translateY(-1px);
+  }
+  
+  .submit-btn-add-car:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  
+  .submit-btn-add-car:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .submit-btn-add-car svg,
+  .cancel-btn-add-car svg {
+    flex-shrink: 0;
+  }
+  
+  /* Spinner */
+  .spinner-add-car {
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(10, 10, 10, 0.3);
+    border-top-color: #0a0a0a;
+    border-radius: 50%;
+    animation: spin-add-car 0.8s linear infinite;
+  }
+  
+  @keyframes spin-add-car {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .add-car-header {
+      padding: 20px 24px;
+    }
+  
+    .header-icon {
+      width: 48px;
+      height: 48px;
+    }
+  
+    .add-car-title {
+      font-size: 20px;
+    }
+  
+    .add-car-subtitle {
+      font-size: 13px;
+    }
+  
+    .add-car-form {
+      padding: 24px;
+    }
+  
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  
+    .form-actions-add-car {
+      flex-direction: column-reverse;
+    }
+  
+    .cancel-btn-add-car,
+    .submit-btn-add-car {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .add-car-header {
+      padding: 16px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .header-icon {
+      width: 44px;
+      height: 44px;
+    }
+  
+    .add-car-title {
+      font-size: 18px;
+    }
+  
+    .add-car-form {
+      padding: 20px;
+    }
+  
+    .form-input-add-car {
+      padding: 12px 14px;
+    }
+  
+    .preview-container {
+      height: 150px;
+    }
+  }

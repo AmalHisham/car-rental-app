@@ -20,10 +20,14 @@ export const addCar = async (car) => {
 }
 
 export const deleteCar = async (id) => {
-  await fetch(`${API_URL}/cars/${id}`, {
-    method: "DELETE"
-  })
-}
+    const res = await fetch(`http://localhost:3001/cars/${id}`, {
+      method: "DELETE"
+    })
+  
+    if (!res.ok) {
+      throw new Error("Failed to delete car")
+    }
+  }
 
 export const updateCar = async (id, car) => {
     const res = await fetch(`http://localhost:3001/cars/${id}`, {
