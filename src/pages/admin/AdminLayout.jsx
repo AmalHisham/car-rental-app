@@ -21,7 +21,7 @@ export default function AdminLayout() {
         <nav className="sidebar-nav">
           <div className="nav-section">
             <span className="nav-section-title">Main Menu</span>
-            <Link to="products" className="nav-link">
+            <Link to="cars" className="nav-link">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="1" y="3" width="15" height="13"/>
                 <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>

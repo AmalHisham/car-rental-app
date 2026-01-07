@@ -18,7 +18,7 @@ import ProtectedRoute from './components/common/ProtectedRoute'
 
 import AdminRoute from "./components/common/AdminRoute"
 import AdminLayout from "./pages/admin/AdminLayout"
-import AdminProducts from "./pages/admin/AdminProducts"
+import AdminCars from "./pages/admin/AdminCars"
 import AdminUsers from "./pages/admin/AdminUsers"
 import UserDetails from './pages/admin/UserDetails'
 // import UserDetails from "./pages/admin/UserDetails"
@@ -44,7 +44,7 @@ export default function App() {
 
         <Route path='/admin' element={<AdminRoute><AdminLayout/></AdminRoute>}>
           <Route index element={<h2>Admin Dashboard</h2>} />
-          <Route path='products' element={<AdminProducts/>}/>
+          <Route path='cars' element={<AdminCars/>}/>
           <Route path='users' element={<AdminUsers/>}/>
           <Route path="users/:id" element={<UserDetails />} />
 
