@@ -74,7 +74,7 @@
       "id": "1",
       "model": "Toyota Fortuner",
       "type": "SUV",
-      "pricePerDay": 3000,
+      "pricePerDay": "4000",
       "image": "https://i.pinimg.com/736x/05/58/ff/0558ff6b9b44c78525fc308576289f36.jpg"
     },
     {
