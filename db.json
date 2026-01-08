@@ -97,6 +97,13 @@
       "type": "SUV",
       "pricePerDay": "1810",
       "image": "https://i.pinimg.com/474x/35/91/d2/3591d242191a03262acf6d36d4ca3bf9.jpg"
+    },
+    {
+      "id": 1767848551744,
+      "model": "BMW 5 Series",
+      "type": "Sedan",
+      "pricePerDay": "8000",
+      "image": "https://di-shared-assets.dealerinspire.com/legacy/rackspace/ldm-images/2021-BMW-5-Series-hero.png"
     }
   ]
 }

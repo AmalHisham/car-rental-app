@@ -9,6 +9,13 @@ export default function AdminCars() {
   const [showAddCar, setShowAddCar] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [selectedType, setSelectedType] = React.useState("ALL");
+
+  const carTypes = React.useMemo(() => {
+    const types = cars.map(car => car.type);
+    return ["ALL", ...new Set(types)];
+  }, [cars]);
+
 
   const [formData, setFormData] = React.useState({
     model: "",
@@ -57,9 +64,16 @@ export default function AdminCars() {
     setEditingCarId(null);
   }
 
-  const filteredCars = cars.filter((car) =>
-    car.model?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredCars = cars.filter((car) => {
+    const matchesSearch =
+      car.model?.toLowerCase().includes(searchQuery.toLowerCase());
+  
+    const matchesType =
+      selectedType === "ALL" || car.type === selectedType;
+  
+    return matchesSearch && matchesType;
+  });
+  
 
   return (
     <div className="admin-cars-container">
@@ -113,6 +127,20 @@ export default function AdminCars() {
                 </svg>
               </button>
             )}
+
+            <div className="filter-box-cars">
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="type-filter-dropdown"
+              >
+                {carTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="stats-bar-cars">
