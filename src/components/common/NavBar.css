@@ -80,7 +80,7 @@
     position: relative;
   }
   
-  .brand-icon {
+  .navbar.brand-icon {
     color: #00ff88;
     font-size: 28px;
     animation: rotate 8s linear infinite;
@@ -96,7 +96,7 @@
     }
   }
   
-  .brand-text {
+  .navbar .brand-text {
     background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -207,7 +207,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
-  .user-name {
+  .navbar .user-name {
     color: #00ff88;
     font-weight: 600;
   }
