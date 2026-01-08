@@ -17,19 +17,26 @@ export default function Login() {
   const from = location.state?.from || "/";
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    const success = await login(email, password);
-
+    e.preventDefault()
+    setError("")
+    setLoading(true)
+  
+    const success = await login(email, password)
+  
     if (success) {
-      navigate(from, { replace: true });
+      const authUser = JSON.parse(localStorage.getItem("authUser"))
+  
+      if (authUser?.role === "admin") {
+        navigate("/admin", { replace: true })
+      } else {
+        navigate(from, { replace: true })
+      }
     } else {
-      setError("Invalid email or password");
-      setLoading(false);
+      setError("Invalid email or password")
+      setLoading(false)
     }
   }
+  
 
   return (
     <div className="page login-page">
