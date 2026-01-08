@@ -21,6 +21,7 @@ import AdminLayout from "./pages/admin/AdminLayout"
 import AdminCars from "./pages/admin/AdminCars"
 import AdminUsers from "./pages/admin/AdminUsers"
 import UserDetails from './pages/admin/UserDetails'
+import AdminDashboard from './pages/admin/AdminDashboard'
 // import UserDetails from "./pages/admin/UserDetails"
 
 
@@ -43,7 +44,7 @@ export default function App() {
 
 
         <Route path='/admin' element={<AdminRoute><AdminLayout/></AdminRoute>}>
-          <Route index element={<h2>Admin Dashboard</h2>} />
+          <Route index element={<AdminDashboard />} /> 
           <Route path='cars' element={<AdminCars/>}/>
           <Route path='users' element={<AdminUsers/>}/>
           <Route path="users/:id" element={<UserDetails />} />
