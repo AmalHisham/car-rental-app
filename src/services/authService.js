@@ -21,7 +21,8 @@ export async function registerUser(name, email, password) {
     name,
     email: normalizedEmail,
     password,
-    role : "user"
+    role : "user",
+    isBlocked: false 
   };
 
   const saveRes = await fetch(`${API_URL}/users`, {

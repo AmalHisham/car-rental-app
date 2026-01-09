@@ -26,17 +26,24 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true)
       const userData = await loginUser(email, password)
-
+  
+      if (userData.isBlocked) {
+        alert("Your account has been blocked by admin")
+        setLoading(false)
+        return false
+      }
+  
       localStorage.setItem("authUser", JSON.stringify(userData))
       setUser(userData)
-
+  
       setLoading(false)
       return true
-    } catch (err) {
+    } catch {
       setLoading(false)
       return false
     }
   }
+  
 
   function logout() {
     localStorage.removeItem("authUser")

@@ -5,14 +5,16 @@
       "name": "Admin",
       "email": "admin@test.com",
       "password": "admin123",
-      "role": "admin"
+      "role": "admin",
+      "isBlocked": false
     },
     {
       "id": "1767434484785",
       "name": "Amal",
       "email": "amal@gmail.com",
       "password": "amal123",
-      "role": "user"
+      "role": "user",
+      "isBlocked": false
     }
   ],
   "bookings": [

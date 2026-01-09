@@ -12,3 +12,16 @@ export async function deleteUser(userId) {
 
     return true
 }
+
+export async function toggleUserStatus(userId, isBlocked) {
+    const res = await fetch(`http://localhost:3001/users/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isBlocked }),
+    })
+  
+    return res.json()
+  }
+  

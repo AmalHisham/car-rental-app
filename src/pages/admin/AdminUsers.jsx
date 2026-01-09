@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { deleteUser } from "../../services/userService";
+import { deleteUser, toggleUserStatus } from "../../services/userService";
 import "./AdminUsers.css";
 
 export default function AdminUsers() {
@@ -43,6 +43,17 @@ export default function AdminUsers() {
         alert("Failed to delete user")
       })
   }
+
+  function handleToggleBlock(user) {
+    toggleUserStatus(user.id, !user.isBlocked)
+      .then(updatedUser => {
+        setUsers(prev =>
+          prev.map(u => u.id === user.id ? updatedUser : u)
+        )
+      })
+      .catch(() => alert("Failed to update user status"))
+  }
+  
   
 
   return (
@@ -51,11 +62,18 @@ export default function AdminUsers() {
         <div className="header-top">
           <div className="header-left">
             <h1 className="admin-title">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
               User Management
             </h1>
@@ -63,14 +81,20 @@ export default function AdminUsers() {
               Manage all registered users and their accounts
             </p>
           </div>
-          
         </div>
 
         <div className="search-filter-bar">
           <div className="search-box-admin">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.35-4.35"/>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
             </svg>
             <input
               type="text"
@@ -80,10 +104,20 @@ export default function AdminUsers() {
               className="search-input-admin"
             />
             {searchQuery && (
-              <button className="clear-search" onClick={() => setSearchQuery("")}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
+              <button
+                className="clear-search"
+                onClick={() => setSearchQuery("")}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
             )}
@@ -110,23 +144,40 @@ export default function AdminUsers() {
           </div>
         ) : error ? (
           <div className="error-state">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
             <h3>{error}</h3>
-            <button className="retry-btn" onClick={() => window.location.reload()}>
+            <button
+              className="retry-btn"
+              onClick={() => window.location.reload()}
+            >
               Retry
             </button>
           </div>
         ) : filteredUsers.length === 0 ? (
           <div className="empty-state">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
             <h3>No users found</h3>
             <p>Try adjusting your search or add a new user</p>
@@ -142,6 +193,7 @@ export default function AdminUsers() {
                   <th>User</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -157,7 +209,9 @@ export default function AdminUsers() {
                           {user.name?.charAt(0).toUpperCase() || "U"}
                         </div>
                         <div className="user-info">
-                          <span className="user-name">{user.name || "Unknown"}</span>
+                          <span className="user-name">
+                            {user.name || "Unknown"}
+                          </span>
                           <span className="user-id">ID: {user.id}</span>
                         </div>
                       </div>
@@ -171,23 +225,58 @@ export default function AdminUsers() {
                       </span>
                     </td>
                     <td>
+                      <span
+                        className={`status-badge ${
+                          user.isBlocked ? "blocked" : "active"
+                        }`}
+                      >
+                        {user.isBlocked ? "Blocked" : "Active"}
+                      </span>
+                    </td>
+
+                    <td>
                       <div className="action-buttons">
-                        <Link to={`/admin/users/${user.id}`} className="action-btn view-btn">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                            <circle cx="12" cy="12" r="3"/>
+                        <Link
+                          to={`/admin/users/${user.id}`}
+                          className="action-btn view-btn"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
                           </svg>
                           View
                         </Link>
-                        <button 
-                        className="action-btn delete-btn"
-                        onClick={() => handleDelete(user.id)}
+                        <button
+                          className="action-btn delete-btn"
+                          onClick={() => handleDelete(user.id)}
                         >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="3 6 5 6 21 6"/>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                           </svg>
                           Delete
+                        </button>
+                        <button
+                          className={`action-btn ${
+                            user.isBlocked ? "activate-btn" : "block-btn"
+                          }`}
+                          onClick={() => handleToggleBlock(user)}
+                        >
+                          {user.isBlocked ? "Activate" : "Block"}
                         </button>
                       </div>
                     </td>
