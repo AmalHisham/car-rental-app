@@ -1,25 +1,21 @@
-/* Floating Action Button */
 .chat-fab {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: var(--bg);
-    border: none;
-    cursor: pointer;
-    z-index: 9999;
-    box-shadow: 0 8px 24px rgba(0, 255, 136, 0.4),
-                0 0 0 0 rgba(0, 255, 136, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    animation: pulse 2s ease-in-out infinite;
-    position: relative;
-  }
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--bg);
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
   
   @keyframes pulse {
     0%, 100% {

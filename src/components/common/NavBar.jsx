@@ -22,7 +22,7 @@ export default function NavBar() {
                 <div className="navbar-brand">
                     <Link to="/" className="brand-link">
                         <span className="brand-icon">●</span>
-                        <span className="brand-text">STORE</span>
+                        <span className="brand-text">Rentify</span>
                     </Link>
                 </div>
 

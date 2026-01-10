@@ -22,11 +22,14 @@ export default function AdminUsers() {
       });
   }, []);
 
-  const filteredUsers = users.filter(
+  const filteredUsers = users
+  .filter(user => user.role !== "admin")
+  .filter(
     (user) =>
       user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
 
   function handleDelete(userId) {
     const confirmDelete = window.confirm(
@@ -125,7 +128,9 @@ export default function AdminUsers() {
 
           <div className="stats-bar">
             <div className="stat-item-admin">
-              <span className="stat-value">{users.length}</span>
+              <span className="stat-value">
+                {users.filter((user) => user.role !== "admin").length}
+              </span>
               <span className="stat-label">Total Users</span>
             </div>
             <div className="stat-item-admin">
