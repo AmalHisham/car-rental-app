@@ -17,7 +17,7 @@
       "isBlocked": false
     },
     {
-      "id": 1768021083140,
+      "id": "1768021083140",
       "name": "Adil",
       "email": "adil@gmail.com",
       "password": "adil123",
@@ -103,6 +103,84 @@
       },
       "bookingStatus": "CONFIRMED",
       "createdAt": "2026-01-10T04:59:05.369Z"
+    },
+    {
+      "id": "22c3",
+      "userId": "1767434484785",
+      "userName": "Amal",
+      "userEmail": "amal@gmail.com",
+      "car": {
+        "id": "2",
+        "model": "Honda Elevate",
+        "type": "SUV",
+        "pricePerDay": 1500,
+        "image": "https://imgd.aeplcdn.com/370x208/n/cw/ec/142515/elevate-exterior-right-front-three-quarter-29.png?isig=0&q=80"
+      },
+      "pickupCity": "Manjeri",
+      "dropCity": "Kozhikode",
+      "startDate": "2026-01-10",
+      "endDate": "2026-01-29",
+      "totalDays": 19,
+      "totalPrice": 28500,
+      "payment": {
+        "method": "UPI",
+        "status": "SUCCESS",
+        "paidAt": "2026-01-10T11:33:52.832Z"
+      },
+      "bookingStatus": "CONFIRMED",
+      "createdAt": "2026-01-10T11:33:52.832Z"
+    },
+    {
+      "id": "847c",
+      "userId": "1767434484785",
+      "userName": "Amal",
+      "userEmail": "amal@gmail.com",
+      "car": {
+        "id": "2",
+        "model": "Honda Elevate",
+        "type": "SUV",
+        "pricePerDay": 1500,
+        "image": "https://imgd.aeplcdn.com/370x208/n/cw/ec/142515/elevate-exterior-right-front-three-quarter-29.png?isig=0&q=80"
+      },
+      "pickupCity": "Himatnagar",
+      "dropCity": "Amravati",
+      "startDate": "2026-01-21",
+      "endDate": "2026-02-04",
+      "totalDays": 14,
+      "totalPrice": 21000,
+      "payment": {
+        "method": "UPI",
+        "status": "SUCCESS",
+        "paidAt": "2026-01-30T10:19:18.190Z"
+      },
+      "bookingStatus": "CONFIRMED",
+      "createdAt": "2026-01-30T10:19:18.190Z"
+    },
+    {
+      "id": "ed06",
+      "userId": "1767434484785",
+      "userName": "Amal",
+      "userEmail": "amal@gmail.com",
+      "car": {
+        "id": "3",
+        "model": "Hyundai Creta",
+        "type": "SUV",
+        "pricePerDay": 1500,
+        "image": "https://images.91wheels.com/assets/c_images/gallery/hyundai/creta/hyundai-creta-0-1737786601.jpg?w=840&q=50"
+      },
+      "pickupCity": "Kozhikode",
+      "dropCity": "Kannur",
+      "startDate": "2026-03-07",
+      "endDate": "2026-03-10",
+      "totalDays": 3,
+      "totalPrice": 4500,
+      "payment": {
+        "method": "UPI",
+        "status": "SUCCESS",
+        "paidAt": "2026-03-06T04:47:10.105Z"
+      },
+      "bookingStatus": "CONFIRMED",
+      "createdAt": "2026-03-06T04:47:10.105Z"
     }
   ],
   "cars": [
