@@ -10,6 +10,8 @@ export const getCars = async (req,res) => {
 export const addCar = async (req,res) => {
 
     try {
+
+
         const car = new Car({
             model : req.body.model,
             type : req.body.type,
@@ -27,5 +29,5 @@ export const addCar = async (req,res) => {
         res.status(500).json({message : err.message})
     }
 
-    
 }
+

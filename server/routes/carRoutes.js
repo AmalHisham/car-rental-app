@@ -1,5 +1,6 @@
 import express from 'express'
 import {getCars, addCar} from "../controllers/carController.js"
+import upload from "../middleware/upload.js"
 
 
 const router = express.Router()
