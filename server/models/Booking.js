@@ -1,39 +1,74 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const bookingSchema = new mongoose.Schema({
 
-    userId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
+  userId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"User",
+    required:true
+  },
+
+  userName:{
+    type:String
+  },
+
+  userEmail:{
+    type:String
+  },
+
+  carId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"Car",
+    required:true
+  },
+
+  pickupCity:{
+    type:String,
+    required:true
+  },
+
+  dropCity:{
+    type:String,
+    required:true
+  },
+
+  startDate:{
+    type:Date,
+    required:true
+  },
+
+  endDate:{
+    type:Date,
+    required:true
+  },
+
+  totalDays:{
+    type:Number
+  },
+
+  totalPrice:{
+    type:Number
+  },
+
+  payment:{
+    method:{
+      type:String
     },
-
-    carId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"Car"
+    status:{
+      type:String,
+      default:"SUCCESS"
     },
-
-    pickupCity:String,
-    dropCity:String,
-
-    startDate:Date,
-    endDate:Date,
-
-    totalDays:Number,
-    totalPrice:Number,
-
-    payment:{
-        method:String,
-        status:String,
-        paidAt:Date
-    },
-
-    bookingStatus:{
-        type:String,
-        default:"CONFIRMED"
+    paidAt:{
+      type:Date,
+      default:Date.now
     }
+  },
 
-},
-{timestamps:true}
-)
+  bookingStatus:{
+    type:String,
+    default:"CONFIRMED"
+  }
 
-export default mongoose.model("Booking", bookingSchema)
+},{timestamps:true})
+
+export default mongoose.model("Booking",bookingSchema)
