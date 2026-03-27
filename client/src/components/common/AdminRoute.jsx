@@ -1,13 +1,12 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
+import { Navigate } from "react-router-dom"
 
-export default function AppRoute({children}) {
+export default function AdminRoute({children}){
 
-    const {user} = React.useContext(AuthContext)
+  const user = JSON.parse(localStorage.getItem("authUser"))
 
-    if(!user) return <Navigate to="/login"/>
-    if(user.role != "admin") return <Navigate to="/"/>
+  if(!user || user.role !== "admin"){
+    return <Navigate to="/admin/login"/>
+  }
 
-    return children
+  return children
 }

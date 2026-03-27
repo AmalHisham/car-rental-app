@@ -9,7 +9,8 @@ export default function AddCar({ onCarAdded, onCancel }) {
     pricePerDay: "",
     image: "",
   });
-
+ 
+  const [preview, setPreview] = React.useState(null)
   const [loading, setLoading] = React.useState(false);
 
   function handleChange(e) {
@@ -118,25 +119,37 @@ export default function AddCar({ onCarAdded, onCancel }) {
               Image URL
             </label>
             <input
-              name="image"
-              placeholder="https://example.com/car-image.jpg"
-              onChange={handleChange}
-              value={car.image}
-              className="form-input-add-car"
-              required
-            />
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0]
+
+                  setCar({ ...car, image: file })
+
+                  if (file) {
+                    setPreview(URL.createObjectURL(file))
+                  }
+                }}
+                className="form-input-add-car"
+                required
+              />
           </div>
         </div>
 
-        {car.image && (
+        {preview && (
           <div className="image-preview">
-            <p className="preview-label">Image Preview:</p>
+            <p className="preview-label">Image Preview</p>
+
             <div className="preview-container">
-              <img src={car.image} alt="Car preview" className="preview-image" />
+              <img
+                src={preview}
+                alt="Car preview"
+                className="preview-image"
+              />
             </div>
           </div>
-        )}
-
+)}
         <div className="form-actions-add-car">
           <button
             type="button"

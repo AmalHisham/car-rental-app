@@ -20,12 +20,13 @@ const userSchema = new mongoose.Schema({
     select: false
   },
 
-  profileImg: {
+  role: {
     type: String,
-    default: null
+    enum: ["user","admin"],
+    default: "user"
   },
 
-  profileThumbImg: {
+  profileImg: {
     type: String,
     default: null
   },

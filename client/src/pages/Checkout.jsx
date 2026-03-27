@@ -5,14 +5,7 @@ import { createBooking } from "../services/bookingService";
 import AuthContext from "../context/AuthContext"
 import "./Checkout.css"
 
-/* helpers for bookings storage */
-function getBookings() {
-  return JSON.parse(localStorage.getItem("bookings")) || []
-}
 
-function saveBookings(bookings) {
-  localStorage.setItem("bookings", JSON.stringify(bookings))
-}
 
 export default function Checkout() {
   const {
@@ -61,29 +54,19 @@ export default function Checkout() {
     setLoading(true)
 
     setTimeout(async () => {
+
+      const token = localStorage.getItem("token");
+      console.log(token);   
+
       const booking = {
-        userId: user.id,
-        userName: user.name,
-        userEmail: user.email,
-    
-        car: selectedCar,
+        carId: selectedCar._id, 
         pickupCity,
         dropCity,
         startDate,
         endDate,
-        totalDays,
-        totalPrice,
-    
-        payment: {
-          method: paymentMethod.toUpperCase(),
-          status: "SUCCESS",
-          paidAt: new Date().toISOString(),
-        },
-    
-        bookingStatus: "CONFIRMED",
-        createdAt: new Date().toISOString(),
+        paymentMethod: paymentMethod.toUpperCase()
       };
-    
+          
       await createBooking(booking);
     
       resetBooking();
@@ -157,7 +140,10 @@ export default function Checkout() {
               <h3 className="section-heading">Selected Vehicle</h3>
               <div className="car-summary">
                 <div className="car-image-checkout">
-                  <img src={selectedCar.image} alt={selectedCar.model} />
+                  <img 
+                    src={`http://localhost:5000/uploads/${selectedCar.image}`} 
+                    alt={selectedCar.model} 
+                  />
                 </div>
                 <div className="car-info-checkout">
                   <h4 className="car-name">{selectedCar.model}</h4>
@@ -279,8 +265,8 @@ export default function Checkout() {
                       <input
                         type="text"
                         placeholder="John Doe"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={cardName}
+                        onChange={(e) => setCardName(e.target.value)}
                         className="form-input"
                       />
                     </div>

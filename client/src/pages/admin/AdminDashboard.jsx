@@ -21,10 +21,18 @@ export default function AdminDashboard() {
   React.useEffect(() => {
     async function loadStats() {
       try {
+        const token = localStorage.getItem("token")
+
         const [carsRes, usersRes, bookingsRes] = await Promise.all([
-          fetch("http://localhost:3001/cars"),
-          fetch("http://localhost:3001/users"),
-          fetch("http://localhost:3001/bookings"),
+          fetch("http://localhost:5000/api/cars", {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          fetch("http://localhost:5000/api/admin/users", {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          fetch("http://localhost:5000/api/bookings", {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
         ]);
 
         const cars = await carsRes.json();
@@ -58,7 +66,7 @@ export default function AdminDashboard() {
           users: customerUsers.length,
           bookings: bookings.length,
           revenue: totalRevenue,
-          recentBookings: bookings.slice(-5).reverse(),
+          recentBookings: [...bookings].reverse().slice(0,5),
           bookingStatusData,
           carsByTypeData
         });
@@ -250,7 +258,7 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody>
                     {stats.recentBookings.map((booking) => (
-                      <tr key={booking.id}>
+                      <tr key={booking._id}>
                         <td>
                           <div className="user-cell-dash">
                             <div className="user-avatar-dash">
@@ -260,7 +268,7 @@ export default function AdminDashboard() {
                           </div>
                         </td>
                         <td>
-                          <span className="car-name">{booking.car?.model || "N/A"}</span>
+                          <span className="car-name">{booking.carId?.model || "N/A"}</span>
                         </td>
                         <td>
                           <span className="route-text">

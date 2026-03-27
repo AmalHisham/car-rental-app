@@ -13,9 +13,12 @@ export function AuthProvider({ children }) {
   async function register(name, email, password) {
     try {
       setLoading(true)
-      const userData = await registerUser(name, email, password)
+  
+      await registerUser(name, email, password)
+  
       setLoading(false)
       return true
+  
     } catch (err) {
       setLoading(false)
       return false
@@ -24,29 +27,35 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     try {
+  
       setLoading(true)
-      const userData = await loginUser(email, password)
   
-      if (userData.isBlocked) {
-        alert("Your account has been blocked by admin")
-        setLoading(false)
-        return false
-      }
+      const data = await loginUser(email, password)
   
-      localStorage.setItem("authUser", JSON.stringify(userData))
-      setUser(userData)
+      const authUser = data.user
+      const token = data.token
+  
+      localStorage.setItem("authUser", JSON.stringify(authUser))
+      localStorage.setItem("token", token)
+  
+      setUser(authUser)
   
       setLoading(false)
+  
       return true
+  
     } catch {
+  
       setLoading(false)
       return false
+  
     }
   }
   
 
   function logout() {
     localStorage.removeItem("authUser")
+    localStorage.removeItem("token")
     setUser(null)
   }
 

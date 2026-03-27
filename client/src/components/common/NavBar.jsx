@@ -53,7 +53,7 @@ export default function NavBar() {
                     {user && (
                     <div className="user-section">
                         <span className="user-welcome">
-                        Hey, <span className="user-name">{user.name}</span>
+                        Hey, <span className="user-name">{user.username}</span>
                         </span>
                         <Link to="/my-bookings" className="nav-link nav-link-cta">
                                 <span className="link-text">My Bookings</span>

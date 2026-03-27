@@ -1,90 +1,123 @@
 import Car from "../models/Car.js"
 
-export const getCars = async (req,res) => {
+// 🔍 GET ALL CARS (Search + Filter)
+export const getCars = async (req, res) => {
+  try {
+    const { search, type } = req.query;
 
-    const cars = await Car.find({isDeleted : false})
+    const filter = {
+      isDeleted: false,
+      ...(search && { model: { $regex: search, $options: "i" } }),
+      ...(type && type !== "ALL" && { type })
+    };
 
-    res.json(cars)
-}
+    const cars = await Car.find(filter);
 
-export const addCar = async (req,res) => {
+    res.json(cars);
 
-    try {
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 
-        const car = new Car({
-            model : req.body.model,
-            type : req.body.type,
-            pricePerDay : req.body.pricePerDay,
-            image : req.file.filename
-        })
+// ➕ ADD CAR
+export const addCar = async (req, res) => {
+  try {
+    const car = new Car({
+      model: req.body.model,
+      type: req.body.type,
+      pricePerDay: req.body.pricePerDay,
+      image: req.file ? req.file.filename : null // ✅ safe fallback
+    });
 
-        await car.save()
+    await car.save();
 
-        res.status(201).json(car)
+    res.status(201).json(car);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// ❌ DELETE CAR (Soft Delete)
+export const deleteCar = async (req, res) => {
+  try {
+    const car = await Car.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
+
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
     }
 
-    catch(err) {
+    res.json({ message: "Car deleted successfully", car });
 
-        res.status(500).json({message : err.message})
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// 🚗 GET CARS BY TYPE
+export const getCarsByType = async (req, res) => {
+  try {
+    const cars = await Car.find({
+      type: req.params.typename,
+      isDeleted: false
+    });
+
+    res.json(cars);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// 🔎 GET CAR BY ID
+export const getCarById = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+
+    if (!car || car.isDeleted) {
+      return res.status(404).json({ message: "Car not found" });
     }
 
-}
+    res.json(car);
 
-export const deleteCar = async (req,res) => {
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
-    try {
 
-        await Car.findByIdAndUpdate(req.params.id , {isDeleted : true})
-        res.json({message : "Car deleted Successfully"})
+// ✏️ UPDATE CAR
+export const updateCar = async (req, res) => {
+  try {
+    const updateData = {
+      model: req.body.model,
+      type: req.body.type,
+      pricePerDay: req.body.pricePerDay,
+      ...(req.file && { image: req.file.filename }) // ✅ clean conditional
+    };
+
+    const car = await Car.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
     }
 
-    catch(err) {
-        res.status(500).json({message : err.message})
-    }    
-} 
+    res.json(car);
 
-export const getCarById = async (req,res) => {
-
-    try {
-
-        const car = await Car.findById(req.params.id)
-        res.json(car)
-    }
-
-    catch(err) {
-
-        res.status(500).json({message : err.message})
-    }
-}
-
-export const updateCar = async (req,res) => {
-
-    console.log(req.body)
-    console.log(req.file)
-
-    try {
-
-        const updateData = {
-            model : req.body.model,
-            type : req.body.type,
-            pricePerDay : req.body.pricePerDay
-        }
-
-        if(req.file) {
-            updateData.image = req.file.filename
-        }
-
-        const car = await Car.findByIdAndUpdate(
-            req.params.id,
-            updateData,
-            {new : true}
-        )
-
-        res.json(car)
-    }
-
-    catch(err) {
-        res.status(500).json({message : err.message})
-    }
-}
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

@@ -16,6 +16,7 @@ import FloatingChatbot from "./components/chatbot/FloatingChatbot"
 import ProtectedRoute from "./components/common/ProtectedRoute"
 import AdminRoute from "./components/common/AdminRoute"
 
+import AdminLogin from "./pages/admin/AdminLogin"
 import AdminLayout from "./pages/admin/AdminLayout"
 import AdminCars from "./pages/admin/AdminCars"
 import AdminUsers from "./pages/admin/AdminUsers"
@@ -77,6 +78,8 @@ export default function App() {
         />
 
         {/* 🔐 Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+
         <Route
           path="/admin"
           element={

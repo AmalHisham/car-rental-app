@@ -19,19 +19,27 @@ export default function SearchResults() {
   const [query, setQuery] = React.useState("");
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    getCars()
+  // ✅ Fetch cars from backend (with search)
+
+ React.useEffect(() => {
+  const delay = setTimeout(() => {
+
+    setLoading(true);
+
+    getCars(query)
       .then(setCars)
+      .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+
+  }, 400); // wait 400ms
+
+  return () => clearTimeout(delay);
+
+}, [query]);
 
   if (loading) {
     return <div className="page"><p>Loading cars...</p></div>;
   }
-
-  const filteredCars = cars.filter((car) =>
-    car.model.toLowerCase().includes(query.toLowerCase())
-  );
 
   return (
     <div className="page">
@@ -42,7 +50,7 @@ export default function SearchResults() {
 
 
             <span className="results-count">
-              {filteredCars.length} cars available
+              {cars.length} cars available
             </span>
           </div>
 
@@ -118,13 +126,13 @@ export default function SearchResults() {
         </div>
 
         {/* Cars Grid */}
-        {filteredCars.length > 0 ? (
+        {cars.length > 0 ? (
           <div className="results-grid">
-            {filteredCars.map((car) => (
-              <div key={car.id} className="result-card">
+            {cars.map((car) => (
+              <div key={car._id} className="result-card">
                 <div className="car-image-container">
                   <img
-                    src={car.image}
+                    src={`http://localhost:5000/uploads/${car.image}`}
                     alt={car.model}
                     className="car-image"
                   />

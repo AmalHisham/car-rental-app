@@ -6,6 +6,8 @@ import connectDB from "./config/db.js"
 import carRoutes from "./routes/carRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
 import bookingRoutes from "./routes/bookingRoutes.js"
+import adminRoutes from "./routes/adminRoutes.js"
+import adminAuthRoutes from "./routes/adminAuthRoutes.js"
 
 import { errorHandler } from "./middleware/errorMiddleware.js"
 
@@ -20,6 +22,9 @@ app.use("/uploads", express.static("uploads"))
 
 app.use(cors())
 app.use(express.json())
+
+app.use("/api/admin", adminRoutes)
+app.use("/api/admin", adminAuthRoutes)
 
 app.use("/api/cars", carRoutes)
 app.use("/api/auth",authRoutes)

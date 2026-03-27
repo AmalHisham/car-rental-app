@@ -2,199 +2,164 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { deleteUser, toggleUserStatus } from "../../services/userService";
 import "./AdminUsers.css";
-
+import { ToastContainer, useToast } from "../../components/common/Toast";
 export default function AdminUsers() {
+
   const [users, setUsers] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [error, setError] = React.useState(null);
 
+const { toasts, removeToast, confirm, success, error: showError } = useToast();
+
   React.useEffect(() => {
-    fetch("http://localhost:3001/users")
-      .then((res) => res.json())
-      .then((data) => {
+
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const query = new URLSearchParams({
+          search: searchQuery
+        });
+
+        const res = await fetch(
+          `http://localhost:5000/api/admin/users?${query}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const data = await res.json();
         setUsers(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+
+      } catch (err) {
         setError("Failed to load users");
-        setLoading(false);
-      });
-  }, []);
+      }
 
-  const filteredUsers = users
-  .filter(user => user.role !== "admin")
-  .filter(
-    (user) =>
-      user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      setLoading(false);
+    };
+
+    setLoading(true);
+    fetchUsers();
+
+  }, [searchQuery]);
 
 
-  function handleDelete(userId) {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?"
-    )
-  
-    if (!confirmDelete) return
-  
-    deleteUser(userId)
-      .then(() => {
-        setUsers(prev => prev.filter(u => u.id !== userId))
-      })
-      .catch(() => {
-        alert("Failed to delete user")
-      })
-  }
+function handleDelete(userId) {
+  confirm("Are you sure you want to delete this user?", async () => {
+    try {
+      await deleteUser(userId);
+      setUsers(prev => prev.filter(u => u._id !== userId));
+      success("User deleted successfully");
+    } catch {
+      showError("Failed to delete user");
+    }
+  });
+}
+
+
 
   function handleToggleBlock(user) {
-    toggleUserStatus(user.id, !user.isBlocked)
+
+    toggleUserStatus(user._id, !user.isBlocked)
       .then(updatedUser => {
         setUsers(prev =>
-          prev.map(u => u.id === user.id ? updatedUser : u)
-        )
+          prev.map(u => u._id === user._id ? updatedUser : u)
+        );
       })
-      .catch(() => alert("Failed to update user status"))
+      .catch(() => alert("Failed to update user status"));
+
   }
-  
-  
+
 
   return (
     <div className="admin-container">
+
       <div className="admin-header">
+
         <div className="header-top">
+
           <div className="header-left">
+
             <h1 className="admin-title">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
               User Management
             </h1>
+
             <p className="admin-subtitle">
               Manage all registered users and their accounts
             </p>
+
           </div>
+
         </div>
 
         <div className="search-filter-bar">
+
           <div className="search-box-admin">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
+
             <input
               type="text"
-              placeholder="Search by name or email..."
+              placeholder="Search by username or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input-admin"
             />
-            {searchQuery && (
-              <button
-                className="clear-search"
-                onClick={() => setSearchQuery("")}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            )}
+
           </div>
 
           <div className="stats-bar">
+
             <div className="stat-item-admin">
               <span className="stat-value">
                 {users.filter((user) => user.role !== "admin").length}
               </span>
               <span className="stat-label">Total Users</span>
             </div>
+
             <div className="stat-item-admin">
-              <span className="stat-value">{filteredUsers.length}</span>
+              <span className="stat-value">{users.length}</span>
               <span className="stat-label">Showing</span>
             </div>
+
           </div>
+
         </div>
+
       </div>
 
       <div className="admin-content">
+
         {loading ? (
+
           <div className="loading-state">
-            <div className="spinner-admin"></div>
             <p>Loading users...</p>
           </div>
+
         ) : error ? (
+
           <div className="error-state">
-            <svg
-              width="64"
-              height="64"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
             <h3>{error}</h3>
-            <button
-              className="retry-btn"
-              onClick={() => window.location.reload()}
-            >
+            <button onClick={() => window.location.reload()}>
               Retry
             </button>
           </div>
-        ) : filteredUsers.length === 0 ? (
+
+        ) : users.length === 0 ? (
+
           <div className="empty-state">
-            <svg
-              width="64"
-              height="64"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-            </svg>
             <h3>No users found</h3>
-            <p>Try adjusting your search or add a new user</p>
           </div>
+
         ) : (
+
           <div className="users-table-container">
+
             <table className="users-table">
+
               <thead>
                 <tr>
-                  <th>
-                    <input type="checkbox" className="table-checkbox" />
-                  </th>
                   <th>User</th>
                   <th>Email</th>
                   <th>Role</th>
@@ -202,33 +167,46 @@ export default function AdminUsers() {
                   <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user.id}>
+
+                {users.map((user) => (
+
+                  <tr key={user._id}>
+
                     <td>
-                      <input type="checkbox" className="table-checkbox" />
-                    </td>
-                    <td>
+
                       <div className="user-cell">
+
                         <div className="user-avatar">
-                          {user.name?.charAt(0).toUpperCase() || "U"}
+                          {user.username?.charAt(0).toUpperCase() || "U"}
                         </div>
+
                         <div className="user-info">
                           <span className="user-name">
-                            {user.name || "Unknown"}
+                            {user.username || "Unknown"}
                           </span>
-                          <span className="user-id">ID: {user.id}</span>
+                          <span className="user-id">
+                            ID: {user._id}
+                          </span>
                         </div>
+
                       </div>
+
                     </td>
+
                     <td>
-                      <span className="user-email">{user.email || "N/A"}</span>
+                      <span className="user-email">
+                        {user.email || "N/A"}
+                      </span>
                     </td>
+
                     <td>
                       <span className="role-badge">
                         {user.role || "Customer"}
                       </span>
                     </td>
+
                     <td>
                       <span
                         className={`status-badge ${
@@ -240,41 +218,23 @@ export default function AdminUsers() {
                     </td>
 
                     <td>
+
                       <div className="action-buttons">
+
                         <Link
-                          to={`/admin/users/${user.id}`}
+                          to={`/admin/users/${user._id}`}
                           className="action-btn view-btn"
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                            <circle cx="12" cy="12" r="3" />
-                          </svg>
                           View
                         </Link>
+
                         <button
                           className="action-btn delete-btn"
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => handleDelete(user._id)}
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                          </svg>
                           Delete
                         </button>
+
                         <button
                           className={`action-btn ${
                             user.isBlocked ? "activate-btn" : "block-btn"
@@ -283,15 +243,25 @@ export default function AdminUsers() {
                         >
                           {user.isBlocked ? "Activate" : "Block"}
                         </button>
+
                       </div>
+
                     </td>
+
                   </tr>
+
                 ))}
+
               </tbody>
+
             </table>
+
           </div>
+
         )}
+
       </div>
+        <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>
   );
 }

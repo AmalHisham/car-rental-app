@@ -2,21 +2,42 @@ import React from "react";
 import AuthContext from "../context/AuthContext";
 import { getUserBookings } from "../services/bookingService";
 import "./MyBookings.css";
+import { cancelBooking } from "../services/bookingService"
+import { useToast, ToastContainer } from "../components/common/Toast";
 
 export default function MyBookings() {
   const { user } = React.useContext(AuthContext);
 
   const [bookings, setBookings] = React.useState([]);
+  const { toasts, removeToast, confirm, success, error: showError } = useToast();
 
   React.useEffect(() => {
     async function loadBookings() {
-      const data = await getUserBookings(user.id);
+      const data = await getUserBookings();
       setBookings(data);
     }
   
     loadBookings();
-  }, [user.id]);
+  }, []);
 
+
+  const handleCancel = (id) => {
+  confirm("Are you sure you want to cancel this booking?", async () => {
+    try {
+      await cancelBooking(id);
+
+      setBookings((prev) =>
+        prev.map((b) =>
+          b._id === id ? { ...b, bookingStatus: "CANCELLED" } : b
+        )
+      );
+
+      success("Booking cancelled successfully");
+    } catch {
+      showError("Failed to cancel booking");
+    }
+  });
+};
   if (bookings.length === 0) {
     return (
       <div className="page">
@@ -65,7 +86,7 @@ export default function MyBookings() {
 
         <div className="bookings-grid">
           {bookings.map((booking) => (
-            <div key={booking.id} className="booking-card-modern">
+            <div key={booking._id} className="booking-card-modern">
               <div className="booking-status-bar">
                 <span className={`status-badge status-${booking.bookingStatus.toLowerCase().replace(' ', '-')}`}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -86,14 +107,14 @@ export default function MyBookings() {
                 <div className="car-preview">
                   <div className="car-image-wrapper">
                     <img
-                      src={booking.car.image}
-                      alt={booking.car.model}
+                      src={`http://localhost:5000/uploads/${booking.carId.image}`}
+                      alt={booking.carId.model}
                       className="car-image-booking"
                     />
                   </div>
                   <div className="car-details-compact">
-                    <h3 className="car-model-name">{booking.car.model}</h3>
-                    <p className="car-price-display">₹{booking.car.pricePerDay} / day</p>
+                    <h3 className="car-model-name">{booking.carId.model}</h3>
+                    <p className="car-price-display">₹{booking.carId.pricePerDay} / day</p>
                   </div>
                 </div>
 
@@ -152,20 +173,14 @@ export default function MyBookings() {
                     <span className="price-amount">₹{booking.totalPrice}</span>
                   </div>
                   <div className="booking-actions">
-                    <button className="action-btn secondary-btn">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                      </svg>
-                      <span>Invoice</span>
+                    {booking.bookingStatus !== "CANCELLED" && (
+                    <button
+                      className="action-btn danger-btn"
+                      onClick={() => handleCancel(booking._id)}
+                    >
+                      ❌ Cancel
                     </button>
-                    <button className="action-btn primary-btn">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                      </svg>
-                      <span>Support</span>
-                    </button>
+)}
                   </div>
                 </div>
               </div>
@@ -173,6 +188,7 @@ export default function MyBookings() {
           ))}
         </div>
       </div>
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>
   );
 }

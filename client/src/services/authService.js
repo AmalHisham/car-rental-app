@@ -1,59 +1,50 @@
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000/api/auth"
 
 /* REGISTER USER */
-export async function registerUser(name, email, password) {
-  // normalize email
-  const normalizedEmail = email.trim().toLowerCase();
+export async function registerUser(username, email, password) {
 
-  const res = await fetch(`${API_URL}/users`);
-  const users = await res.json();
-
-  const exists = users.find(
-    (u) => u.email.toLowerCase() === normalizedEmail
-  );
-
-  if (exists) {
-    throw new Error("User already exists");
-  }
-
-  const newUser = {
-    id: Date.now(),
-    name,
-    email: normalizedEmail,
-    password,
-    role : "user",
-    isBlocked: false 
-  };
-
-  const saveRes = await fetch(`${API_URL}/users`, {
+  const res = await fetch(`${API_URL}/register`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newUser)
-  });
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username,
+      email,
+      password
+    })
+  })
 
-  if (!saveRes.ok) {
-    throw new Error("Registration failed");
+  const data = await res.json()
+
+  if (!res.ok) {
+    throw new Error(data.message || "Registration failed")
   }
 
-  return newUser;
+  return data
 }
+
+
 
 /* LOGIN USER */
 export async function loginUser(email, password) {
-  const normalizedEmail = email.trim().toLowerCase();
 
-  const res = await fetch(`${API_URL}/users`);
-  const users = await res.json();
+  const res = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email,
+      password
+    })
+  })
 
-  const foundUser = users.find(
-    (u) =>
-      u.email.toLowerCase() === normalizedEmail &&
-      u.password === password
-  );
+  const data = await res.json()
 
-  if (!foundUser) {
-    throw new Error("Invalid credentials");
+  if (!res.ok) {
+    throw new Error(data.message || "Invalid credentials")
   }
 
-  return foundUser;
+  return data
 }

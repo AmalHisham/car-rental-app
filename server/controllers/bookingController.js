@@ -118,3 +118,54 @@ export const getAllBookings = async (req,res)=>{
   }
 
 }
+
+export const getBookingsByUserId = async (req,res)=>{
+
+  try{
+
+    const { userId } = req.params
+
+    const bookings = await Booking.find({
+      userId: userId
+    }).populate("carId")
+
+    res.json(bookings)
+
+  }catch(err){
+
+    res.status(500).json({message:err.message})
+
+  }
+
+}
+
+export const cancelBooking = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const booking = await Booking.findById(id)
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" })
+    }
+
+    // ✅ Only owner can cancel
+    if (booking.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" })
+    }
+
+    // ✅ Prevent re-cancel
+    if (booking.bookingStatus === "CANCELLED") {
+      return res.status(400).json({ message: "Booking already cancelled" })
+    }
+
+    booking.bookingStatus = "CANCELLED"
+
+    await booking.save()
+
+    res.json({ message: "Booking cancelled successfully", booking })
+
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+}

@@ -2,19 +2,21 @@ import { Link, Outlet, useNavigate} from "react-router-dom";
 import AuthContext from "../../context/AuthContext"
 import React from "react";
 import "./AdminLayout.css";
+import { useToast, ToastContainer } from "../../components/common/Toast";
 
 export default function AdminLayout() {
 
   const { logout, user } = React.useContext(AuthContext)
   const navigate = useNavigate()
 
-  function handleLogout() {
-    const confirm = window.confirm("Are you sure you want to logout?")
-    if (!confirm) return
+  const { toasts, removeToast, confirm } = useToast();
 
-    logout()
-    navigate("/login")
-  }
+  function handleLogout() {
+  confirm("Are you sure you want to logout?", () => {
+    logout();
+    navigate("/login");
+  });
+}
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
@@ -121,6 +123,7 @@ export default function AdminLayout() {
       <main className="admin-main">
         <Outlet />
       </main>
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>
   );
 }

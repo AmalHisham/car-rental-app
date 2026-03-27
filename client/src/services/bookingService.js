@@ -1,30 +1,72 @@
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000/api/bookings";
 
+/* CREATE BOOKING */
 export async function createBooking(booking) {
-  const res = await fetch(`${API_URL}/bookings`, {
+  const token = localStorage.getItem("token")
+
+  const res = await fetch(API_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(booking),
-  });
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(booking)
+  })
 
-  if (!res.ok) {
-    throw new Error("Failed to create booking");
-  }
-
-  return res.json();
-}
-
-export async function getUserBookings(userId) {
-  const res = await fetch(`${API_URL}/bookings?userId=${userId}`);
-  return res.json();
-}
-
-export async function getAllBookings() {
-  const res = await fetch(`${API_URL}/bookings`)
   return res.json()
 }
 
+
+/* USER BOOKINGS */
+export async function getUserBookings() {
+  const token = localStorage.getItem("token")
+
+  const res = await fetch(`${API_URL}/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return res.json()
+}
+
+
+/* ADMIN - ALL BOOKINGS */
+export async function getAllBookings() {
+  const token = localStorage.getItem("token")
+
+  const res = await fetch(API_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return res.json()
+}
+
+
+/* ADMIN - BOOKINGS OF A PARTICULAR USER */
 export async function getBookingsByUser(userId) {
-  const res = await fetch(`${API_URL}/bookings?userId=${userId}`)
+
+  const token = localStorage.getItem("token")
+
+  const res = await fetch(`${API_URL}/admin/user/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return res.json()
+}
+
+export const cancelBooking = async (id) => {
+  const res = await fetch(`http://localhost:5000/api/bookings/${id}/cancel`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+
   return res.json()
 }

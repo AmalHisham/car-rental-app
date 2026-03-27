@@ -1,5 +1,6 @@
 import React from "react";
 import { getCars, deleteCar, updateCar } from "../../services/carService";
+import ConfirmModal from "../../components/common/ConfirmModal";
 import AddCar from "./AddCar";
 import "./AdminCars.css";
 
@@ -10,12 +11,8 @@ export default function AdminCars() {
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedType, setSelectedType] = React.useState("ALL");
-
-  const carTypes = React.useMemo(() => {
-    const types = cars.map(car => car.type);
-    return ["ALL", ...new Set(types)];
-  }, [cars]);
-
+  const [carToDelete, setCarToDelete] = React.useState(null);
+  const [allTypes, setAllTypes] = React.useState(["ALL"]);
 
   const [formData, setFormData] = React.useState({
     model: "",
@@ -24,55 +21,72 @@ export default function AdminCars() {
     image: "",
   });
 
+  const [preview, setPreview] = React.useState(null);
+
+  // ✅ Load types (dropdown)
   React.useEffect(() => {
-    setLoading(true);
-    getCars().then((data) => {
-      setCars(Array.isArray(data) ? data : []);
-      setLoading(false);
-    });
+    async function loadTypes() {
+      const data = await getCars();
+      const types = ["ALL", ...new Set(data.map(car => car.type))];
+      setAllTypes(types);
+    }
+    loadTypes();
   }, []);
 
-  function handleDelete(id) {
-    if (!window.confirm("Are you sure you want to delete this car?")) return;
+  // ✅ Fetch cars (SEARCH + FILTER handled by backend)
+  React.useEffect(() => {
+    setLoading(true);
 
-    deleteCar(id).then(() => {
-      setCars((prev) => prev.filter((c) => c.id !== id));
-    });
+    const fetchCars = async () => {
+      try {
+        const data = await getCars(searchQuery, selectedType);
+        setCars(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+      }
+      setLoading(false);
+    };
+
+    fetchCars();
+  }, [searchQuery, selectedType]);
+
+  // ✅ Delete
+  function handleDelete(id) {
+    setCarToDelete(id);
   }
 
+  // ✅ Edit
   function handleEdit(car) {
     setShowAddCar(false);
-    setEditingCarId(car.id);
+    setEditingCarId(car._id);
+
     setFormData({
       model: car.model,
       type: car.type,
       pricePerDay: car.pricePerDay,
-      image: car.image,
+      image: null,
     });
+
+    setPreview(`http://localhost:5000/uploads/${car.image}`);
   }
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
+  // ✅ Update
   async function handleUpdate(id) {
-    const updatedCar = { id, ...formData };
+    const updatedCar = { ...formData };
+
     const savedCar = await updateCar(id, updatedCar);
 
-    setCars((prev) => prev.map((car) => (car.id === id ? savedCar : car)));
+    setCars(prev =>
+      prev.map(car => (car._id === id ? savedCar : car))
+    );
 
     setEditingCarId(null);
+    setPreview(null);
   }
-
-  const filteredCars = cars.filter((car) => {
-    const matchesSearch =
-      car.model?.toLowerCase().includes(searchQuery.toLowerCase());
-  
-    const matchesType =
-      selectedType === "ALL" || car.type === selectedType;
-  
-    return matchesSearch && matchesType;
-  });
   
 
   return (
@@ -134,7 +148,7 @@ export default function AdminCars() {
                 onChange={(e) => setSelectedType(e.target.value)}
                 className="type-filter-dropdown"
               >
-                {carTypes.map((type) => (
+                {allTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -149,7 +163,7 @@ export default function AdminCars() {
               <span className="stat-label-cars">Total Cars</span>
             </div>
             <div className="stat-item-cars">
-              <span className="stat-value-cars">{filteredCars.length}</span>
+              <span className="stat-value-cars">{cars.length}</span>
               <span className="stat-label-cars">Showing</span>
             </div>
           </div>
@@ -174,7 +188,7 @@ export default function AdminCars() {
             <div className="spinner-cars"></div>
             <p>Loading cars...</p>
           </div>
-        ) : filteredCars.length === 0 ? (
+        ) : cars.length === 0 ? (
           <div className="empty-state-cars">
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <rect x="1" y="3" width="15" height="13"/>
@@ -187,9 +201,9 @@ export default function AdminCars() {
           </div>
         ) : (
           <div className="cars-grid">
-            {filteredCars.map((car) => (
-              <div key={car.id} className="car-card-admin">
-                {editingCarId === car.id ? (
+            {cars.map((car) => (
+              <div key={car._id} className="car-card-admin">
+                {editingCarId === car._id ? (
                   <div className="edit-form">
                     <h3 className="edit-title">Edit Vehicle</h3>
                     <div className="form-group-cars">
@@ -226,16 +240,39 @@ export default function AdminCars() {
                     <div className="form-group-cars">
                       <label>Image URL</label>
                       <input
-                        name="image"
-                        value={formData.image}
-                        onChange={handleChange}
-                        placeholder="https://example.com/car.jpg"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files[0]
+
+                          setFormData({ ...formData, image: file })
+
+                          if (file) {
+                            setPreview(URL.createObjectURL(file))
+                          }
+                        }}
                         className="form-input-cars"
                       />
+
+                      {preview && (
+                          <div style={{ marginTop: "10px" }}>
+                            <img
+                              src={preview}
+                              alt="Preview"
+                              style={{
+                                width: "100%",
+                                height: "160px",
+                                objectFit: "cover",
+                                borderRadius: "8px"
+                              }}
+                            />
+                          </div>
+                        )}
                     </div>
 
+
                     <div className="form-actions">
-                      <button className="save-btn" onClick={() => handleUpdate(car.id)}>
+                      <button className="save-btn" onClick={() => handleUpdate(car._id)}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
@@ -249,7 +286,11 @@ export default function AdminCars() {
                 ) : (
                   <>
                     <div className="car-image-container">
-                      <img src={car.image} alt={car.model} className="car-image-admin" />
+                      <img
+                        src={`http://localhost:5000/uploads/${car.image}`}
+                        alt={car.model}
+                        className="car-image-admin"
+                      />
                       <div className="car-type-badge">{car.type}</div>
                     </div>
 
@@ -268,7 +309,7 @@ export default function AdminCars() {
                           </svg>
                           Edit
                         </button>
-                        <button className="delete-btn-car" onClick={() => handleDelete(car.id)}>
+                        <button className="delete-btn-car" onClick={() => handleDelete(car._id)}>
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <polyline points="3 6 5 6 21 6"/>
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -284,6 +325,22 @@ export default function AdminCars() {
           </div>
         )}
       </div>
+      {carToDelete && (
+        <ConfirmModal
+          title="Delete Vehicle"
+          message="Are you sure you want to delete this car?"
+          onCancel={() => setCarToDelete(null)}
+          onConfirm={async () => {
+            await deleteCar(carToDelete)
+
+            setCars(prev =>
+              prev.filter(car => car._id !== carToDelete)
+            )
+
+            setCarToDelete(null)
+          }}
+        />
+      )}
     </div>
   );
 }
